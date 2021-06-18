@@ -1,5 +1,6 @@
-import {PostsType, ProfilePageType} from "./store";
-import profileReducer, {addPostAC, updateNewPostTextAC} from "./profile-reducer";
+
+
+import profileReducer, {addPost, PostsType, ProfilePageType, updateNewPostText} from "./profile-reducer";
 
 test('correct post should be added', () => {
     let startState: ProfilePageType = {
@@ -8,14 +9,35 @@ test('correct post should be added', () => {
             {id: 2, message: 'It is my first post', likesCount: 20},
             {id: 3, message: 'Hello', likesCount: 1}
         ],
-        newPostText: ''
+        newPostText: '',
+        profile: {
+            aboutMe: '',
+            userId: 0,
+            lookingForAJob: false,
+            lookingForAJobDescription: '',
+            fullName: '',
+            contacts: {
+                github: '',
+                vk: '',
+                facebook: '',
+                instagram: '',
+                twitter: '',
+                website: '',
+                youtube: '',
+                mainLink: '',
+            },
+            photos: {
+                small: undefined,
+                large: undefined,
+            },
+        },
     }
     const newPost: PostsType = {
         id: 4,
         message: startState.newPostText,
         likesCount: 0
     }
-    let action = addPostAC()
+    let action = addPost()
     let endState = profileReducer(startState, action)
 
     expect(endState.posts.length).toBe(4)
@@ -31,11 +53,32 @@ test('correct new post message should be updated', () => {
             {id: 2, message: 'It is my first post', likesCount: 20},
             {id: 3, message: 'Hello', likesCount: 1}
         ],
-        newPostText: ''
+        newPostText: '',
+        profile: {
+            aboutMe: '',
+            userId: 0,
+            lookingForAJob: false,
+            lookingForAJobDescription: '',
+            fullName: '',
+            contacts: {
+                github: '',
+                vk: '',
+                facebook: '',
+                instagram: '',
+                twitter: '',
+                website: '',
+                youtube: '',
+                mainLink: '',
+            },
+            photos: {
+                small: undefined,
+                large: undefined,
+            },
+        }
     }
 
     let newPostText = "I am happy!!!"
-    let action = updateNewPostTextAC(newPostText)
+    let action = updateNewPostText(newPostText)
     let endState = profileReducer(startState, action)
 
     expect(endState.newPostText).toBe("I am happy!!!")
