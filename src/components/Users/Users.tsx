@@ -3,7 +3,7 @@ import {UsersType} from '../../redux/users-reducer';
 import s from './Users.module.css'
 import avaPost from './../../assets/images/avaPost.png'
 import {NavLink} from 'react-router-dom';
-import {followAPI} from '../../api/api';
+import {usersAPI} from '../../api/api';
 
 
 type PropsType = {
@@ -11,11 +11,10 @@ type PropsType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
-    follow: (userId: number) => void
-    unFollow: (userId: number) => void
     onPageChanged: (page: number) => void
     followingInProgress: number[]
-    toggleFollowingProgress: (isFetching: boolean, userId: number) => void
+    follow: (userId: number) => void
+    unFollow: (userId: number) => void
 }
 
 let Users = (props: PropsType) => {
@@ -38,22 +37,10 @@ let Users = (props: PropsType) => {
         {props.users.map(u => {
 
             const onClickFollowHandler = () => {
-                props.toggleFollowingProgress(true, u.id)
-                followAPI.postFollow(u.id).then(response => {
-                    if (response.data.resultCode === 0) {
-                        props.follow(u.id)
-                    }
-                    props.toggleFollowingProgress(false, u.id)
-                })
+                props.follow(u.id)
             }
             const onClickUnFollowHandler = () => {
-                props.toggleFollowingProgress(true, u.id)
-                followAPI.deleteFollow(u.id).then(response => {
-                    if (response.data.resultCode === 0) {
-                        props.unFollow(u.id)
-                    }
-                    props.toggleFollowingProgress(false, u.id)
-                })
+                props.unFollow(u.id)
             }
 
             return <div key={u.id} className={s.user}>

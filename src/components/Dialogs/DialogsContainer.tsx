@@ -1,14 +1,15 @@
 import React from 'react';
-import {addMessageAC, DialogsType, MessagesType, updateNewMessageBodyAC} from "../../redux/dialogs-reducer";
-import Dialogs from "./Dialogs";
-import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
+import {addMessageAC, DialogsType, MessagesType, updateNewMessageBodyAC} from '../../redux/dialogs-reducer';
+import Dialogs from './Dialogs';
+import {connect} from 'react-redux';
+import {AppStateType} from '../../redux/redux-store';
 
 
 type MapStateToPropsType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
     newMessageBody: string
+    isAuth: boolean
 }
 type MapDispatchToPropsType = {
     addMessage: () => void
@@ -35,7 +36,8 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         dialogs: state.dialogsPage.dialogs,
         messages: state.dialogsPage.messages,
-        newMessageBody: state.dialogsPage.newMessageBody
+        newMessageBody: state.dialogsPage.newMessageBody,
+        isAuth: state.auth.isAuth,
     }
 }
 
@@ -45,6 +47,7 @@ const mapDispatchToProps = (dispatch:(action: any) => void): MapDispatchToPropsT
         updateNewMessageBody: (body: string) => dispatch(updateNewMessageBodyAC(body))
     }
 }
-const DialogsContainer = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps)(Dialogs)
+const DialogsContainer = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>
+(mapStateToProps, mapDispatchToProps)(Dialogs)
 
 export default DialogsContainer;

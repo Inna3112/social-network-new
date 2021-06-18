@@ -1,3 +1,7 @@
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./redux-store";
+import {usersAPI} from "../api/api";
+
 
 export type PostsType = {
     id: number
@@ -98,9 +102,16 @@ const profileReducer = (state = initialState, action: ActionType): ProfilePageTy
     }
 }
 
-export let addPost = () => ({type: 'ADD-POST'}) as const
-export let setUserProfile = (profile: ProfileType) => ({type: 'SET-USER-PROFILE', profile}) as const
-export let updateNewPostText = (newText: string) =>
+export const addPost = () => ({type: 'ADD-POST'}) as const
+export const setUserProfile = (profile: ProfileType) => ({type: 'SET-USER-PROFILE', profile}) as const
+export const updateNewPostText = (newText: string) =>
     ({type: 'UPDATE-NEW-POST-TEXT', newText: newText}) as const
 
+export const getProfile = (userId: string): ThunkAction<void, AppStateType, unknown, ActionType> => {
+    return (dispatch, getState) => {
+        usersAPI.getProfile(userId).then(response => {
+            dispatch(setUserProfile(response.data))
+        })
+    }
+}
 export default profileReducer
