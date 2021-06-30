@@ -32,12 +32,12 @@ class AuthContainer extends React.Component<PropsType> {
     }
 }
 
-const mapStateToProps = (state: AppStateType): AuthStateType => {
+const mapStateToProps = ({auth} : {auth:AuthStateType}): AuthStateType => {
     return {
-        userId: state.auth.userId,
-        email: state.auth.email,
-        login: state.auth.login,
-        isAuth: state.auth.isAuth,
+        userId: auth.userId,
+        email: auth.email,
+        login: auth.login,
+        isAuth: auth.isAuth,
     }
 }
 

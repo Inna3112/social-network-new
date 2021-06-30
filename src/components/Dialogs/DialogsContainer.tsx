@@ -1,24 +1,31 @@
 import React from 'react';
-import {addMessageAC, DialogsType, MessagesType, updateNewMessageBodyAC} from '../../redux/dialogs-reducer';
+import {
+    addMessageAC,
+    DialogsPageType,
+    DialogsType,
+    MessagesType,
+    updateNewMessageBodyAC
+} from '../../redux/dialogs-reducer';
 import Dialogs from './Dialogs';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
+import {AuthStateType} from "../../redux/auth-reducer";
 
 
-type MapStateToPropsType = {
+type MapStatePropsType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
     newMessageBody: string
     isAuth: boolean
 }
-type MapDispatchToPropsType = {
+type MapDispatchPropsType = {
     addMessage: () => void
     updateNewMessageBody: (body: string) => void
 }
 type OwnPropsType = {
 
 }
-type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 // const DialogsContainer: React.FC<PropsType> = (props) => {
 //     const addMessage = () => {
 //         props.dispatch(addMessageAC())
@@ -32,22 +39,23 @@ type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 //                     updateNewMessageBody={updateNewMessageText}/>
 // }
 
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
+const mapStateToProps = ({dialogsPage, auth} : {dialogsPage: DialogsPageType, auth: AuthStateType})
+    : MapStatePropsType => {
     return {
-        dialogs: state.dialogsPage.dialogs,
-        messages: state.dialogsPage.messages,
-        newMessageBody: state.dialogsPage.newMessageBody,
-        isAuth: state.auth.isAuth,
+        dialogs: dialogsPage.dialogs,
+        messages: dialogsPage.messages,
+        newMessageBody: dialogsPage.newMessageBody,
+        isAuth: auth.isAuth,
     }
 }
 
-const mapDispatchToProps = (dispatch:(action: any) => void): MapDispatchToPropsType => {
+const mapDispatchToProps = (dispatch:(action: any) => void): MapDispatchPropsType => {
     return {
         addMessage: () => dispatch(addMessageAC()),
         updateNewMessageBody: (body: string) => dispatch(updateNewMessageBodyAC(body))
     }
 }
-const DialogsContainer = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>
+const DialogsContainer = connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
 (mapStateToProps, mapDispatchToProps)(Dialogs)
 
 export default DialogsContainer;

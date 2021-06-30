@@ -1,7 +1,7 @@
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./redux-store";
-import {authAPI, usersAPI} from "../api/api";
-import {setUserProfile} from "./profile-reducer";
+import {authAPI} from "../api/api";
+
 
 export type AuthStateType = {
     userId: number | undefined
