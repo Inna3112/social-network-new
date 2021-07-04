@@ -8,7 +8,8 @@ import {
     ProfileType,
     updateNewPostText
 } from '../../redux/profile-reducer';
-import {Redirect, RouteComponentProps, withRouter} from 'react-router-dom';
+import { RouteComponentProps, withRouter} from 'react-router-dom';
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 type PathParamsType = {
@@ -18,7 +19,7 @@ type MapStatePropsType = {
     posts: Array<PostsType>
     newPostText: string
     profile: ProfileType
-    isAuth: boolean
+    // isAuth: boolean
 }
 type MapDispatchPropsType = {
     addPost: () => void
@@ -39,22 +40,21 @@ class ProfileContainer extends React.Component<PropsType> {
     }
 
     render() {
-        return (!this.props.isAuth)
-            ? <Redirect to='/login' />
-            : <Profile {...this.props} profile={this.props.profile}/>
+        return <Profile {...this.props} profile={this.props.profile}/>
     }
 }
+const AuthRedirectComponent = withAuthRedirect(ProfileContainer)
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         posts: state.profilePage.posts,
         newPostText: state.profilePage.newPostText,
         profile: state.profilePage.profile,
-        isAuth: state.auth.isAuth,
+        // isAuth: state.auth.isAuth,
     }
 }
 
-let WithUrlDataProfileContainer = withRouter(ProfileContainer)
+let WithUrlDataProfileContainer = withRouter(AuthRedirectComponent)
 
 export default connect<MapStatePropsType, MapDispatchPropsType, OwnProps, AppStateType>(mapStateToProps, {
     addPost, updateNewPostText, getProfile
