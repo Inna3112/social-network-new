@@ -3,7 +3,6 @@ import {UsersType} from '../../redux/users-reducer';
 import s from './Users.module.css'
 import avaPost from './../../assets/images/avaPost.png'
 import {NavLink} from 'react-router-dom';
-import {usersAPI} from '../../api/api';
 
 
 type PropsType = {
