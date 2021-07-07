@@ -33,7 +33,25 @@ export const usersAPI = {
         return instance.delete<FollowResponseType>(`follow/${userId}`)
     },
     getProfile(userId: string) {
+        console.warn('Obsolete method. Please use profileAPI object!')
+        return profileAPI.getProfile(userId)
+    }
+}
+
+type UpdateStatusType = {
+    resultCode: number
+    messages: string[]
+    data: {}
+}
+export const profileAPI = {
+    getProfile(userId: string) {
         return instance.get<ProfileType>(`profile/` + userId)
+    },
+    getStatus(userId: string) {
+        return instance.get(`profile/status/` + userId)
+    },
+    updateStatus(status: string){
+        return instance.put<UpdateStatusType>(`profile/status/`, {status: status})
     }
 }
 

@@ -3,14 +3,12 @@ import Profile from './Profile';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {
-    addPost, getProfile,
+    addPost, getProfile, getStatus,
     PostsType,
     ProfileType,
-    updateNewPostText
+    updateNewPostText, updateStatus
 } from '../../redux/profile-reducer';
 import { RouteComponentProps, withRouter} from 'react-router-dom';
-import {withAuthRedirect} from '../../HOC/withAuthRedirect';
-import {compose} from 'redux';
 
 
 type PathParamsType = {
@@ -20,11 +18,14 @@ type MapStatePropsType = {
     posts: Array<PostsType>
     newPostText: string
     profile: ProfileType
+    status: string
 }
 type MapDispatchPropsType = {
     addPost: () => void
     updateNewPostText: (newText: string) => void
     getProfile: (userId: string) => void
+    getStatus: (userId: string) => void
+    updateStatus: (status: string) => void
 }
 type OwnProps = {}
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnProps & RouteComponentProps<PathParamsType>
@@ -34,13 +35,15 @@ class ProfileContainer extends React.Component<PropsType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {
-            userId = '2'
+            userId = '17259'
         }
         this.props.getProfile(userId)
+        this.props.getStatus(userId)
     }
 
     render() {
-        return <Profile {...this.props} profile={this.props.profile}/>
+        return <Profile {...this.props} profile={this.props.profile}
+                        status={this.props.status} updateStatus={this.props.updateStatus}/>
     }
 }
 // const AuthRedirectComponent = withAuthRedirect(ProfileContainer)
@@ -50,6 +53,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
         posts: state.profilePage.posts,
         newPostText: state.profilePage.newPostText,
         profile: state.profilePage.profile,
+        status: state.profilePage.status,
     }
 }
 
@@ -62,5 +66,5 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 let WithUrlDataProfileContainer = withRouter(ProfileContainer)
 
 export default connect<MapStatePropsType, MapDispatchPropsType, OwnProps, AppStateType>(mapStateToProps, {
-    addPost, updateNewPostText, getProfile
+    addPost, updateNewPostText, getProfile, getStatus, updateStatus
 })(WithUrlDataProfileContainer);
