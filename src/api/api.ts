@@ -64,10 +64,31 @@ type getMeResponseType = {
         login: string
     }
 }
+
+type LoginRequestType = {
+    resultCode: number
+    messages: [],
+    data: {
+        userId: number
+    }
+}
+type LogOutRequestType = {
+    resultCode: number
+    messages: string []
+    data: {}
+}
 export const authAPI = {
     getMe(){
         return instance.get<getMeResponseType>('auth/me')
             .then(response => response.data)
+    },
+    login(email: string, password: string, rememberMe: boolean){
+        return instance.post<LoginRequestType>('auth/login', {
+            email, password, rememberMe
+        })
+    },
+    logout(){
+        return instance.delete<LogOutRequestType>('auth/login')
     }
 }
 
