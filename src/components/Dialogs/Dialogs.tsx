@@ -1,9 +1,9 @@
 import React from 'react';
 import s from './Dialogs.module.css';
-import Dialog from "./Dialog/Dialog";
-import Message from "./Message/Message";
-import {DialogsType, MessagesType} from "../../redux/dialogs-reducer";
-import {DialogsReduxForm} from "./DialogsForm/DialogsForm";
+import Dialog from './Dialog/Dialog';
+import Message from './Message/Message';
+import {DialogsType, MessagesType} from '../../redux/dialogs-reducer';
+import {DialogsReduxForm} from './DialogsForm/DialogsForm';
 
 
 type PropsType = {

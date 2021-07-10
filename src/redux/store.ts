@@ -1,4 +1,4 @@
-import  {addPost, updateNewPostText} from './profile-reducer';
+import  {addPost} from './profile-reducer';
 import { addMessageAC } from './dialogs-reducer';
 import sidebarReducer from './sidebar-reducer';
 import {follow, unFollow} from './users-reducer';
@@ -63,7 +63,7 @@ export type StoreType = {
     dispatch: (action: ActionType) => void
 }
 
-export type ActionType = ReturnType<typeof addPost> | ReturnType<typeof updateNewPostText>
+export type ActionType = ReturnType<typeof addPost> 
     | ReturnType<typeof addMessageAC>
     | ReturnType<typeof follow> | ReturnType<typeof unFollow>
 

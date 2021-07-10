@@ -6,7 +6,7 @@ import {
     addPost, getProfile, getStatus,
     PostsType,
     ProfileType,
-    updateNewPostText, updateStatus
+    updateStatus
 } from '../../redux/profile-reducer';
 import { RouteComponentProps, withRouter} from 'react-router-dom';
 
@@ -16,13 +16,13 @@ type PathParamsType = {
 }
 type MapStatePropsType = {
     posts: Array<PostsType>
-    newPostText: string
+    // newPostText: string
     profile: ProfileType
     status: string
 }
 type MapDispatchPropsType = {
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    addPost: (newPostTect: string) => void
+    // updateNewPostText: (newText: string) => void
     getProfile: (userId: string) => void
     getStatus: (userId: string) => void
     updateStatus: (status: string) => void
@@ -51,7 +51,7 @@ class ProfileContainer extends React.Component<PropsType> {
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         posts: state.profilePage.posts,
-        newPostText: state.profilePage.newPostText,
+        // newPostText: state.profilePage.newPostText,
         profile: state.profilePage.profile,
         status: state.profilePage.status,
     }
@@ -66,5 +66,5 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 let WithUrlDataProfileContainer = withRouter(ProfileContainer)
 
 export default connect<MapStatePropsType, MapDispatchPropsType, OwnProps, AppStateType>(mapStateToProps, {
-    addPost, updateNewPostText, getProfile, getStatus, updateStatus
+    addPost, getProfile, getStatus, updateStatus
 })(WithUrlDataProfileContainer);

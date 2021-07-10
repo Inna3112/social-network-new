@@ -1,6 +1,6 @@
-import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "./redux-store";
-import {profileAPI, usersAPI} from "../api/api";
+import {ThunkAction} from 'redux-thunk';
+import {AppStateType} from './redux-store';
+import {profileAPI, usersAPI} from '../api/api';
 
 
 export type PostsType = {
@@ -33,7 +33,7 @@ export type ProfileType = {
 }
 export type ProfilePageType = {
     posts: Array<PostsType>
-    newPostText: string
+    // newPostText: string
     profile: ProfileType
     status: string
 }
@@ -44,7 +44,7 @@ let initialState: ProfilePageType = {
         {id: 2, message: 'It is my first post', likesCount: 20},
         {id: 3, message: 'Hello', likesCount: 1}
     ],
-    newPostText: '',
+    // newPostText: '',
     profile: {
         aboutMe: '',
         userId: 0,
@@ -69,7 +69,7 @@ let initialState: ProfilePageType = {
     status: '',
 }
 type ActionType = ReturnType<typeof addPost>
-    | ReturnType<typeof updateNewPostText>
+    // | ReturnType<typeof updateNewPostText>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
 
@@ -78,21 +78,21 @@ const profileReducer = (state = initialState, action: ActionType): ProfilePageTy
         case 'ADD-POST': {
             const newPost: PostsType = {
                 id: 4,
-                message: state.newPostText,
+                message: action.newPostText,
                 likesCount: 0
             }
             return {
                 ...state,
                 posts: [...state.posts, newPost],
-                newPostText: ''
+                // newPostText: ''
             }
         }
-        case 'UPDATE-NEW-POST-TEXT': {
-            return {
-                ...state,
-                newPostText: action.newText
-            }
-        }
+        // case 'UPDATE-NEW-POST-TEXT': {
+        //     return {
+        //         ...state,
+        //         newPostText: action.newText
+        //     }
+        // }
         case 'SET-USER-PROFILE': {
             return {
                 ...state,
@@ -111,11 +111,11 @@ const profileReducer = (state = initialState, action: ActionType): ProfilePageTy
     }
 }
 
-export const addPost = () => ({type: 'ADD-POST'}) as const
+export const addPost = (newPostText: string) => ({type: 'ADD-POST', newPostText}) as const
 export const setUserProfile = (profile: ProfileType) => ({type: 'SET-USER-PROFILE', profile}) as const
 export const setStatus = (status: string) => ({type: 'SET-STATUS', status}) as const
-export const updateNewPostText = (newText: string) =>
-    ({type: 'UPDATE-NEW-POST-TEXT', newText: newText}) as const
+// export const updateNewPostText = (newText: string) =>
+//     ({type: 'UPDATE-NEW-POST-TEXT', newText: newText}) as const
 
 export const getProfile = (userId: string): ThunkAction<void, AppStateType, unknown, ActionType> => {
     return (dispatch, getState) => {
