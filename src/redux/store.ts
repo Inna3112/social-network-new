@@ -1,5 +1,5 @@
-import profileReducer, {addPost, updateNewPostText} from './profile-reducer';
-import dialogsReducer, { addMessageAC, updateNewMessageBodyAC } from './dialogs-reducer';
+import  {addPost, updateNewPostText} from './profile-reducer';
+import { addMessageAC } from './dialogs-reducer';
 import sidebarReducer from './sidebar-reducer';
 import {follow, unFollow} from './users-reducer';
 
@@ -64,7 +64,7 @@ export type StoreType = {
 }
 
 export type ActionType = ReturnType<typeof addPost> | ReturnType<typeof updateNewPostText>
-    | ReturnType<typeof addMessageAC> | ReturnType<typeof updateNewMessageBodyAC>
+    | ReturnType<typeof addMessageAC>
     | ReturnType<typeof follow> | ReturnType<typeof unFollow>
 
 export const store: StoreType = {

@@ -5,7 +5,7 @@ import {LoginFormValuesType} from "../Login";
 type LoginFormOwnProps = {
 
 }
-let LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps> & LoginFormOwnProps> = (props) => {
+const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps> & LoginFormOwnProps> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
@@ -23,6 +23,6 @@ let LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps
         </form>
     )
 }
-let LoginReduxForm = reduxForm<LoginFormValuesType>({form: 'login'})(LoginForm)
+const LoginReduxForm = reduxForm<LoginFormValuesType>({form: 'login'})(LoginForm)
 
 export default LoginReduxForm

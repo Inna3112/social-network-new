@@ -1,10 +1,8 @@
 import React from 'react';
 import {
     addMessageAC,
-    DialogsPageType,
     DialogsType,
-    MessagesType,
-    updateNewMessageBodyAC
+    MessagesType
 } from '../../redux/dialogs-reducer';
 import Dialogs from './Dialogs';
 import {connect} from 'react-redux';
@@ -16,44 +14,28 @@ import {compose} from "redux";
 type MapStatePropsType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
-    newMessageBody: string
 }
 type MapDispatchPropsType = {
-    addMessage: () => void
-    updateNewMessageBody: (body: string) => void
+    addMessage: (newMessageBody: string) => void
 }
 type OwnPropsType = {
 
 }
 export type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
-// const DialogsContainer: React.FC<PropsType> = (props) => {
-//     const addMessage = () => {
-//         props.dispatch(addMessageAC())
-//     }
-//     const updateNewMessageText = (body: string) => {
-//         props.dispatch(updateNewMessageBodyAC(body))
-//     }
-//
-//     return <Dialogs dialogsPage={props.dialogsPage}
-//                     addMessage={addMessage}
-//                     updateNewMessageBody={updateNewMessageText}/>
-// }
 
 const AuthRedirectComponent = withAuthRedirect(Dialogs)
 
-const mapStateToProps = ({dialogsPage} : {dialogsPage: DialogsPageType})
+const mapStateToProps = (state: AppStateType)
     : MapStatePropsType => {
     return {
-        dialogs: dialogsPage.dialogs,
-        messages: dialogsPage.messages,
-        newMessageBody: dialogsPage.newMessageBody,
+        dialogs: state.dialogsPage.dialogs,
+        messages: state.dialogsPage.messages,
     }
 }
 
 const mapDispatchToProps = (dispatch:(action: any) => void): MapDispatchPropsType => {
     return {
-        addMessage: () => dispatch(addMessageAC()),
-        updateNewMessageBody: (body: string) => dispatch(updateNewMessageBodyAC(body))
+        addMessage: (newMessageBody: string) => dispatch(addMessageAC(newMessageBody)),
     }
 }
 // export default compose(

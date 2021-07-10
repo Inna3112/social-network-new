@@ -1,25 +1,23 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import s from './Dialogs.module.css';
 import Dialog from "./Dialog/Dialog";
 import Message from "./Message/Message";
 import {DialogsType, MessagesType} from "../../redux/dialogs-reducer";
-
+import {DialogsReduxForm} from "./DialogsForm/DialogsForm";
 
 
 type PropsType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
     newMessageBody: string
-    addMessage: () => void
+    addMessage: (newMessageBody: string) => void
     updateNewMessageBody: (body:string) => void
     isAuth: boolean
 }
 const Dialogs: React.FC<PropsType> = (props) => {
-    const addMessage = () => {
-        props.addMessage()
-    }
-    const updateNewMessageText = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewMessageBody(e.currentTarget.value)
+
+    const addNewMessage = (values: {newMessageBody: string}) => {
+        props.addMessage(values.newMessageBody)
     }
     let dialogsElements = props.dialogs.map(d => <Dialog key={d.id} name={d.name} id={d.id}/>)
     let messagesElements = props.messages.map(m => <Message key={m.id} message={m.message} id={m.id}/>)
@@ -31,14 +29,8 @@ const Dialogs: React.FC<PropsType> = (props) => {
             </div>
             <div className={s.messages}>
                 {messagesElements}
-                <div>
-                    <textarea value={props.newMessageBody}
-                              onChange={updateNewMessageText}/>
-                </div>
-                <div>
-                    <button onClick={addMessage}>Send message</button>
-                </div>
             </div>
+            <DialogsReduxForm onSubmit={addNewMessage}/>
         </div>
 
     )
