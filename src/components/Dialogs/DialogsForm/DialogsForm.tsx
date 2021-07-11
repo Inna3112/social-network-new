@@ -1,5 +1,7 @@
 import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {Textarea} from "../../../common/FormsControl/FormsControl";
+import {maxLengthCreator, required} from "../../../utils/validators/validators";
 
 type DialogsFormValuesType = {
     newMessageBody: string
@@ -7,12 +9,16 @@ type DialogsFormValuesType = {
 type DialogsFormOwnProps = {
 
 }
+const maxLength10 = maxLengthCreator(10)
 const DialogsForm: React.FC<InjectedFormProps<DialogsFormValuesType, DialogsFormOwnProps> & DialogsFormOwnProps> = (props) => {
 
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component={'textarea'} name={'newMessageBody'} placeholder={'Enter your message'} />
+                <Field component={Textarea} name={'newMessageBody'}
+                       placeholder={'Enter your message'}
+                       validate={[required, maxLength10]}
+                />
             </div>
             <div>
                 <button>Send message</button>
