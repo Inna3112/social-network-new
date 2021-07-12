@@ -2,17 +2,18 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import Header from './Header';
-import {AuthStateType, getMe} from '../../redux/auth-reducer';
+import {getMe, logout} from '../../redux/auth-reducer';
 
 
 type MapStatePropsType = {
-    userId: number | undefined
-    email: string
-    login: string
+    userId: number | null
+    email: string | null
+    login: string | null
     isAuth: boolean
 }
 type MapDispatchPropsType = {
     getMe: () => void
+    logout: () => void
 }
 type OwnPropsType = {}
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
@@ -27,21 +28,21 @@ class AuthContainer extends React.Component<PropsType> {
     render() {
         return <>
             {/*{this.props.isFetching ? <Preloader /> : null}*/}
-            <Header login={this.props.login} isAuth={this.props.isAuth}/>
+            <Header login={this.props.login} isAuth={this.props.isAuth} logout={this.props.logout}/>
         </>
     }
 }
 
-const mapStateToProps = ({auth} : {auth:AuthStateType}): AuthStateType => {
+const mapStateToProps = (state: AppStateType) => {
     return {
-        userId: auth.userId,
-        email: auth.email,
-        login: auth.login,
-        isAuth: auth.isAuth,
+        userId: state.auth.userId,
+        email: state.auth.email,
+        login: state.auth.login,
+        isAuth: state.auth.isAuth,
     }
 }
 
 export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-    getMe
+    getMe, logout
 })(AuthContainer)
 

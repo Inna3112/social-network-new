@@ -6,7 +6,7 @@ type PropsType = {
     meta: WrappedFieldMetaProps
 }
 const FormControl: React.FC<PropsType> = ({ meta, children}) => {
-    const hasError = meta.touched && meta.error
+    const hasError = meta.error && meta.touched
 
     return (
         <div className={s.formControl + ' ' +(hasError ? s.error : '')}>

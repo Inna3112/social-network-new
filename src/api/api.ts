@@ -54,25 +54,24 @@ export const profileAPI = {
         return instance.put<UpdateStatusType>(`profile/status`, {status: status})
     }
 }
-
 type getMeResponseType = {
     resultCode: number
-    messages: String[]
+    messages: string []
     data: {
-        id: number
-        email: string
-        login: string
+        id: number | null,
+        email: string | null,
+        login: string | null,
     }
 }
 
-type LoginRequestType = {
+type LoginResponseType = {
     resultCode: number
     messages: [],
     data: {
         userId: number
     }
 }
-type LogOutRequestType = {
+type LogoutResponseType = {
     resultCode: number
     messages: string []
     data: {}
@@ -82,13 +81,13 @@ export const authAPI = {
         return instance.get<getMeResponseType>('auth/me')
             .then(response => response.data)
     },
-    login(email: string, password: string, rememberMe: boolean){
-        return instance.post<LoginRequestType>('auth/login', {
+    logIn(email: string | null, password: string | null, rememberMe = false){
+        return instance.post<LoginResponseType>('auth/login', {
             email, password, rememberMe
         })
     },
     logout(){
-        return instance.delete<LogOutRequestType>('auth/login')
+        return instance.delete<LogoutResponseType>('auth/login')
     }
 }
 

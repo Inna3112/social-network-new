@@ -4,16 +4,18 @@ import logo from '../../assets/images/logo.png';
 import s  from './Header.module.css';
 
 type PropsType = {
-    login: string
+    login: string | null
     isAuth: boolean
+    logout: () => void
 }
-const Header = ({login, isAuth}: PropsType) => {
+const Header = ({login, isAuth, logout}: PropsType) => {
+
     return (
         <header className={s.header}>
             <img src={logo}  />
             <div className={s.loginBlock}>
                 {isAuth
-                    ? login
+                    ? <div>{login}<button onClick={logout}>log out</button></div>
                     : <NavLink to={'/login'}>Login</NavLink>}
             </div>
         </header>
