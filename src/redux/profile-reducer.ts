@@ -117,14 +117,14 @@ export const setStatus = (status: string) => ({type: 'SET-STATUS', status}) as c
 // export const updateNewPostText = (newText: string) =>
 //     ({type: 'UPDATE-NEW-POST-TEXT', newText: newText}) as const
 
-export const getProfile = (userId: string): ThunkAction<void, AppStateType, unknown, ActionType> => {
+export const getProfile = (userId: number | null): ThunkAction<void, AppStateType, unknown, ActionType> => {
     return (dispatch, getState) => {
         usersAPI.getProfile(userId).then(response => {
             dispatch(setUserProfile(response.data))
         })
     }
 }
-export const getStatus = (userId: string): ThunkAction<void, AppStateType, unknown, ActionType> => {
+export const getStatus = (userId: number | null): ThunkAction<void, AppStateType, unknown, ActionType> => {
     return (dispatch, getState) => {
         profileAPI.getStatus(userId).then(response => {
             dispatch(setStatus(response.data))

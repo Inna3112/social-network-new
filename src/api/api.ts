@@ -2,6 +2,7 @@ import axios from "axios";
 import {UsersType} from "../redux/users-reducer";
 import {ProfileType} from "../redux/profile-reducer";
 
+
 const instance = axios.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -32,7 +33,7 @@ export const usersAPI = {
     unFollowSuccess(userId: number) {
         return instance.delete<FollowResponseType>(`follow/${userId}`)
     },
-    getProfile(userId: string) {
+    getProfile(userId: number | null) {
         console.warn('Obsolete method. Please use profileAPI object!')
         return profileAPI.getProfile(userId)
     }
@@ -44,10 +45,10 @@ type UpdateStatusType = {
     data: {}
 }
 export const profileAPI = {
-    getProfile(userId: string) {
+    getProfile(userId: number | null) {
         return instance.get<ProfileType>(`profile/` + userId)
     },
-    getStatus(userId: string) {
+    getStatus(userId: number | null) {
         return instance.get(`profile/status/` + userId)
     },
     updateStatus(status: string){
@@ -66,7 +67,7 @@ type getMeResponseType = {
 
 type LoginResponseType = {
     resultCode: number
-    messages: [],
+    messages: string[],
     data: {
         userId: number
     }

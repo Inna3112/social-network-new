@@ -60,6 +60,9 @@ export const logIn = (email: string | null, password: string | null, rememberMe:
             .then(response => {
                 if(response.data.resultCode === 0){
                     dispatch(getMe())
+                } else {
+                    let message = response.data.messages.length > 1 ? response.data.messages[0] : 'Some error'
+                    // dispatch(stopSubmit('login', {_error: message}))
                 }
             })
     }

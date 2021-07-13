@@ -19,12 +19,14 @@ type MapStatePropsType = {
     // newPostText: string
     profile: ProfileType
     status: string
+    authorizedId: number | null
+    isAuth: boolean
 }
 type MapDispatchPropsType = {
     addPost: (newPostTect: string) => void
     // updateNewPostText: (newText: string) => void
-    getProfile: (userId: string) => void
-    getStatus: (userId: string) => void
+    getProfile: (userId: number | null) => void
+    getStatus: (userId: number | null) => void
     updateStatus: (status: string) => void
 }
 type OwnProps = {}
@@ -33,9 +35,9 @@ type PropsType = MapStatePropsType & MapDispatchPropsType & OwnProps & RouteComp
 class ProfileContainer extends React.Component<PropsType> {
 
     componentDidMount() {
-        let userId = this.props.match.params.userId
+        let userId: number | null = Number(this.props.match.params.userId)
         if (!userId) {
-            userId = '17259'
+            userId = this.props.authorizedId
         }
         this.props.getProfile(userId)
         this.props.getStatus(userId)
@@ -54,6 +56,8 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
         // newPostText: state.profilePage.newPostText,
         profile: state.profilePage.profile,
         status: state.profilePage.status,
+        authorizedId: state.auth.userId,
+        isAuth: state.auth.isAuth,
     }
 }
 
