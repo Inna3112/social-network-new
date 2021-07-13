@@ -68,12 +68,12 @@ let initialState: ProfilePageType = {
     },
     status: '',
 }
-type ActionType = ReturnType<typeof addPost>
+export type ProfileActionType = ReturnType<typeof addPost>
     // | ReturnType<typeof updateNewPostText>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
 
-const profileReducer = (state = initialState, action: ActionType): ProfilePageType => {
+const profileReducer = (state = initialState, action: ProfileActionType): ProfilePageType => {
     switch (action.type) {
         case 'ADD-POST': {
             const newPost: PostsType = {
@@ -117,21 +117,21 @@ export const setStatus = (status: string) => ({type: 'SET-STATUS', status}) as c
 // export const updateNewPostText = (newText: string) =>
 //     ({type: 'UPDATE-NEW-POST-TEXT', newText: newText}) as const
 
-export const getProfile = (userId: number | null): ThunkAction<void, AppStateType, unknown, ActionType> => {
+export const getProfile = (userId: number | null): ThunkAction<void, AppStateType, unknown, ProfileActionType> => {
     return (dispatch, getState) => {
         usersAPI.getProfile(userId).then(response => {
             dispatch(setUserProfile(response.data))
         })
     }
 }
-export const getStatus = (userId: number | null): ThunkAction<void, AppStateType, unknown, ActionType> => {
+export const getStatus = (userId: number | null): ThunkAction<void, AppStateType, unknown, ProfileActionType> => {
     return (dispatch, getState) => {
         profileAPI.getStatus(userId).then(response => {
             dispatch(setStatus(response.data))
         })
     }
 }
-export const updateStatus = (status: string): ThunkAction<void, AppStateType, unknown, ActionType> => {
+export const updateStatus = (status: string): ThunkAction<void, AppStateType, unknown, ProfileActionType> => {
     return (dispatch, getState) => {
         profileAPI.updateStatus(status).then(response => {
             if(response.data.resultCode === 0){

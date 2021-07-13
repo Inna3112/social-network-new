@@ -26,7 +26,7 @@ export type UsersStateType = {
     isFetching: boolean
     followingInProgress: number[]
 }
-export type ActionType = ReturnType<typeof followSuccess>
+export type UserActionType = ReturnType<typeof followSuccess>
     | ReturnType<typeof unFollowSuccess>
     | ReturnType<typeof setUsers>
     | ReturnType<typeof setCurrentPage>
@@ -43,7 +43,7 @@ let initialState: UsersStateType = {
     followingInProgress: [],
 }
 
-const usersReducer = (state = initialState, action: ActionType): UsersStateType => {
+const usersReducer = (state = initialState, action: UserActionType): UsersStateType => {
     switch (action.type) {
         case 'FOLLOW':
             return {
@@ -98,7 +98,7 @@ export let setTotalUsersCount = (totalUsersCount: number) => ({type: 'SET-TOTAL-
 export let toggleIsFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching}) as const
 export let toggleFollowingProgress = (isFetching: boolean, userId: number) => ({type: 'TOGGLE-FOLLOWING-PROGRESS', isFetching, userId}) as const
 
-export const getUsers = (currentPage: number, pageSize: number): ThunkAction<void, AppStateType, unknown, ActionType> => {
+export const getUsers = (currentPage: number, pageSize: number): ThunkAction<void, AppStateType, unknown, UserActionType> => {
     return (dispatch, getState) => {
         dispatch(toggleIsFetching(true))
         usersAPI.getUsers(currentPage, pageSize)
@@ -112,7 +112,7 @@ export const getUsers = (currentPage: number, pageSize: number): ThunkAction<voi
 }
 
 export const follow = (userId: number) => {
-    return (dispatch: Dispatch<ActionType>) => {
+    return (dispatch: Dispatch<UserActionType>) => {
         dispatch(toggleFollowingProgress(true, userId))
         usersAPI.followSuccess(userId)
             .then(response => {
@@ -125,7 +125,7 @@ export const follow = (userId: number) => {
 }
 
 export const unFollow = (userId: number) => {
-    return (dispatch: Dispatch<ActionType>) => {
+    return (dispatch: Dispatch<UserActionType>) => {
         dispatch(toggleFollowingProgress(true, userId))
         usersAPI.unFollowSuccess(userId)
             .then(response => {

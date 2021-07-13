@@ -11,7 +11,7 @@ export type AuthStateType = {
     rememberMe: boolean
     isAuth: boolean
 }
-export type ActionType = ReturnType<typeof setAuthUserData> | FormAction
+export type AuthActionType = ReturnType<typeof setAuthUserData> | FormAction
 
 let initialState: AuthStateType = {
     userId: null,
@@ -21,7 +21,7 @@ let initialState: AuthStateType = {
     isAuth: false,
 }
 
-const authReducer = (state = initialState, action: ActionType): AuthStateType => {
+const authReducer = (state = initialState, action: AuthActionType): AuthStateType => {
     switch (action.type) {
         case 'SET-AUTH-USER-DATA':
             return {
@@ -43,7 +43,7 @@ export let setAuthUserData = (userId: number | null, email: string | null, login
     },
 }) as const
 
-export const getMe = (): ThunkAction<void, AppStateType, unknown, ActionType> => {
+export const getMe = (): ThunkAction<void, AppStateType, unknown, AuthActionType> => {
     return (dispatch, getState) => {
         authAPI.getMe()
             .then(data => {
@@ -55,7 +55,7 @@ export const getMe = (): ThunkAction<void, AppStateType, unknown, ActionType> =>
     }
 }
 
-export const logIn = (email: string | null, password: string | null, rememberMe: boolean): ThunkAction<void, AppStateType, unknown, ActionType> => {
+export const logIn = (email: string | null, password: string | null, rememberMe: boolean): ThunkAction<void, AppStateType, unknown, AuthActionType> => {
     return (dispatch, getState) => {
         authAPI.logIn(email, password, rememberMe)
             .then(response => {
@@ -68,7 +68,7 @@ export const logIn = (email: string | null, password: string | null, rememberMe:
             })
     }
 }
-export const logout = (): ThunkAction<void, AppStateType, unknown, ActionType> => {
+export const logout = (): ThunkAction<void, AppStateType, unknown, AuthActionType> => {
     return (dispatch, getState) => {
         authAPI.logout()
             .then(response => {
