@@ -27,7 +27,6 @@ const authReducer = (state = initialState, action: AuthActionType): AuthStateTyp
             return {
                 ...state,
                 ...action.payload,
-                // isAuth: true
             }
         default:
             return state
@@ -39,7 +38,7 @@ export let setAuthUserData = (userId: number | null, email: string | null, login
         userId: userId,
         email: email,
         login: login,
-        isAuth: true,
+        isAuth: isAuth,
     },
 }) as const
 

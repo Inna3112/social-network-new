@@ -7,9 +7,9 @@ import {AppStateType} from "../../redux/redux-store";
 
 export  type LoginFormPropsType = {
     logIn: (email: string | null, password: string | null, rememberMe: boolean) => void
-    // isAuth: boolean
+    isAuth: boolean
 }
-const Login: React.FC<LoginFormPropsType> = ({logIn}) => {
+const Login: React.FC<LoginFormPropsType> = ({logIn, isAuth}) => {
 
     const onSubmit = (formData: LoginFormValuesType) => {
         logIn(formData.email, formData.password, formData.rememberMe)
