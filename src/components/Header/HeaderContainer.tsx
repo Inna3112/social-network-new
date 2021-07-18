@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import Header from './Header';
-import {getMe, logout} from '../../redux/auth-reducer';
+import {logout} from '../../redux/auth-reducer';
 
 
 type MapStatePropsType = {
@@ -12,7 +12,6 @@ type MapStatePropsType = {
     isAuth: boolean
 }
 type MapDispatchPropsType = {
-    getMe: () => void
     logout: () => void
 }
 type OwnPropsType = {}
@@ -20,10 +19,6 @@ type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 
 class AuthContainer extends React.Component<PropsType> {
-
-    componentDidMount() {
-            this.props.getMe()
-    }
 
     render() {
         return <>
@@ -43,6 +38,6 @@ const mapStateToProps = (state: AppStateType) => {
 }
 
 export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-    getMe, logout
+     logout
 })(AuthContainer)
 

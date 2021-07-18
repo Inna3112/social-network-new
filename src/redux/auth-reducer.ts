@@ -42,9 +42,9 @@ export let setAuthUserData = (userId: number | null, email: string | null, login
     },
 }) as const
 
-export const getMe = (): ThunkAction<void, AppStateType, unknown, AuthActionType> => {
+export const getMe = (): ThunkAction<Promise<void>, AppStateType, unknown, AuthActionType> => {
     return (dispatch, getState) => {
-        authAPI.getMe()
+        return authAPI.getMe()
             .then(data => {
             if(data.resultCode === 0){
                 let {id, email, login}  = data.data

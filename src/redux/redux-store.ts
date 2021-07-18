@@ -6,6 +6,7 @@ import usersReducer, {UserActionType} from './users-reducer';
 import authReducer, {AuthActionType} from './auth-reducer';
 import thunkMiddleware, {ThunkAction} from 'redux-thunk'
 import {FormAction, reducer as formReducer} from 'redux-form'
+import appReducer, {AppActionType} from "./app-reducer";
 
 
 
@@ -16,6 +17,7 @@ export type AllActionsType =
     | UserActionType
     | DialogActionType
     | ProfileActionType
+    | AppActionType
     | FormAction
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, AllActionsType>
@@ -27,6 +29,7 @@ let rootReducer = combineReducers({
     sidebar: sidebarReducer,
     usersPage: usersReducer,
     auth: authReducer,
+    app: appReducer,
     form: formReducer,
 })
 

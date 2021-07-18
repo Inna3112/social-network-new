@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginReduxForm, {LoginFormValuesType} from './LoginForm/LoginForm';
+import {Redirect} from "react-router-dom";
 
 export  type LoginFormPropsType = {
     logIn: (email: string | null, password: string | null, rememberMe: boolean) => void
