@@ -98,10 +98,11 @@ export let setTotalUsersCount = (totalUsersCount: number) => ({type: 'SET-TOTAL-
 export let toggleIsFetching = (isFetching: boolean) => ({type: 'TOGGLE-IS-FETCHING', isFetching}) as const
 export let toggleFollowingProgress = (isFetching: boolean, userId: number) => ({type: 'TOGGLE-FOLLOWING-PROGRESS', isFetching, userId}) as const
 
-export const getUsers = (currentPage: number, pageSize: number): ThunkAction<void, AppStateType, unknown, UserActionType> => {
+export const requestUsers = (page: number, pageSize: number): ThunkAction<void, AppStateType, unknown, UserActionType> => {
     return (dispatch, getState) => {
         dispatch(toggleIsFetching(true))
-        usersAPI.getUsers(currentPage, pageSize)
+        dispatch(setCurrentPage(page))
+        usersAPI.getUsers(page, pageSize)
             .then(data => {
             // debugger
             dispatch(toggleIsFetching(false))
