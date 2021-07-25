@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import {
     addMessageAC,
     DialogsType,
@@ -23,7 +23,6 @@ type OwnPropsType = {
 }
 export type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
-const AuthRedirectComponent = withAuthRedirect(Dialogs)
 
 const mapStateToProps = (state: AppStateType)
     : MapStatePropsType => {
@@ -38,13 +37,14 @@ const mapDispatchToProps = (dispatch:(action: any) => void): MapDispatchPropsTyp
         addMessage: (newMessageBody: string) => dispatch(addMessageAC(newMessageBody)),
     }
 }
-// export default compose(
-//     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
-//     (mapStateToProps, mapDispatchToProps),
-//     withAuthRedirect
-// )(Dialogs)
+export default compose<ComponentType>(
+    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
+    (mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(Dialogs)
 
-const DialogsContainer = connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
-(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
-
-export default DialogsContainer;
+// const AuthRedirectComponent = withAuthRedirect(Dialogs)
+// const DialogsContainer = connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
+// (mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
+//
+// export default DialogsContainer;

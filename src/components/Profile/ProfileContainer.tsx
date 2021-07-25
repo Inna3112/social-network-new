@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import Profile from './Profile';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
@@ -9,6 +9,8 @@ import {
     updateStatus
 } from '../../redux/profile-reducer';
 import { RouteComponentProps, withRouter} from 'react-router-dom';
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 
 type PathParamsType = {
@@ -63,14 +65,15 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 }
 
-// export default compose(
-//     connect<MapStatePropsType, MapDispatchPropsType, OwnProps, AppStateType>(mapStateToProps, {
-//         addPost, updateNewPostText, getProfile}),
-//     withRouter,
-//     withAuthRedirect
-// )(ProfileContainer);
-let WithUrlDataProfileContainer = withRouter(ProfileContainer)
+export default compose<ComponentType>(
+    connect<MapStatePropsType, MapDispatchPropsType, OwnProps, AppStateType>(mapStateToProps, {
+        addPost, getProfile, getStatus, updateStatus}),
+    withRouter,
+    withAuthRedirect
+)(ProfileContainer);
 
-export default connect<MapStatePropsType, MapDispatchPropsType, OwnProps, AppStateType>(mapStateToProps, {
-    addPost, getProfile, getStatus, updateStatus
-})(WithUrlDataProfileContainer);
+// let WithUrlDataProfileContainer = withRouter(ProfileContainer)
+//
+// export default connect<MapStatePropsType, MapDispatchPropsType, OwnProps, AppStateType>(mapStateToProps, {
+//     addPost, getProfile, getStatus, updateStatus
+// })(WithUrlDataProfileContainer);

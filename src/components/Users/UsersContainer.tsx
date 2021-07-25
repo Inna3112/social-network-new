@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {
@@ -74,16 +74,6 @@ const mapStateToProps = (state: AppStateType): UsersStateType => {
         followingInProgress: getFollowingInProgress(state),
     }
 }
-// const mapStateToProps = (state: AppStateType): UsersStateType => {
-//     return {
-//         users: state.usersPage.users,
-//         pageSize: state.usersPage.pageSize,
-//         totalUsersCount: state.usersPage.totalUsersCount,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         followingInProgress: state.usersPage.followingInProgress
-//     }
-// }
 
 // const mapDispatchToProps = (dispatch: any) => {
 //     return {
@@ -96,13 +86,13 @@ const mapStateToProps = (state: AppStateType): UsersStateType => {
 //     }
 // }
 
-// export default compose(
-//     withAuthRedirect,
-//     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-//         setCurrentPage, getUsers, follow, unFollow})
-// )(UsersContainer)
+export default compose<ComponentType>(
+    withAuthRedirect,
+    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+        setCurrentPage, requestUsers, follow, unFollow})
+)(UsersContainer)
 
-export default withAuthRedirect(connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-    setCurrentPage, requestUsers, follow, unFollow
-})(UsersContainer))
+// export default withAuthRedirect(connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+//     setCurrentPage, requestUsers, follow, unFollow
+// })(UsersContainer))
 

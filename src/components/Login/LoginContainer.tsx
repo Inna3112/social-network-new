@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import {logIn} from '../../redux/auth-reducer';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import Login from "./Login";
+import {compose} from "redux";
+
 
 type MapStatePropsType = {
     isAuth: boolean
@@ -24,4 +26,8 @@ class LoginContainer extends React.Component <LoginFormPropsType> {
 
 const MapStateToProps = (state: AppStateType) => ({isAuth: state.auth.isAuth})
 
-export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(MapStateToProps, {logIn})(LoginContainer)
+
+export default compose<ComponentType>(
+    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(MapStateToProps, {
+        logIn})
+)(LoginContainer)

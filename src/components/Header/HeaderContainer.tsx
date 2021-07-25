@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import Header from './Header';
 import {logout} from '../../redux/auth-reducer';
+import {compose} from "redux";
 
 
 type MapStatePropsType = {
@@ -37,7 +38,11 @@ const mapStateToProps = (state: AppStateType) => {
     }
 }
 
-export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-     logout
-})(AuthContainer)
+// export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+//      logout
+// })(AuthContainer)
+
+export default compose<ComponentType>(
+    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps,
+        {logout}))(AuthContainer)
 
