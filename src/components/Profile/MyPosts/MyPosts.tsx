@@ -14,7 +14,7 @@ type PropsType = {
 }
 
 
-const MyPosts: React.FC<PropsType> = (props) => {
+const MyPosts: React.FC<PropsType> = React.memo((props) => {
     let postsElement = props.posts
         .map(p => <Post key={p.id} id={p.id} message={p.message} likesCount={p.likesCount}/>)
 
@@ -39,7 +39,7 @@ const MyPosts: React.FC<PropsType> = (props) => {
             </div>
         </div>
     )
-}
+})
 
 
 export default MyPosts;
