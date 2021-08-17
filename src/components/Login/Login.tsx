@@ -14,13 +14,14 @@ const Login: React.FC<LoginFormPropsType> = ({logIn, isAuth}) => {
     }
 
 
-    return (
-        // {isAuth} ? <Redirect to={'/profile'} />
-        // :
-        <div>
+    if (isAuth) {
+        return (<Redirect to={'/profile'}/>)
+    } else {
+        return (<div>
             <h1>Login</h1>
             <LoginReduxForm onSubmit={onSubmit}/>
-        </div>
-    )}
+        </div>)
+    }
+}
 
 export default Login
