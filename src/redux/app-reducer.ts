@@ -1,6 +1,6 @@
-import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "./redux-store";
-import {getMe} from "./auth-reducer";
+import {ThunkAction} from 'redux-thunk';
+import {AppStateType} from './redux-store';
+import {getMe} from './auth-reducer';
 
 
 export type appStateType = {
@@ -31,8 +31,9 @@ export const initializedSuccess = () => ({
 export const initializeApp = (): ThunkAction<void, AppStateType, unknown, AppActionType> => {
     return (dispatch, getState) => {
         let dispatchResult = dispatch(getMe())
-        Promise.all([dispatchResult]).then(() => {
-            dispatch(initializedSuccess)
+        Promise.all([dispatchResult])
+            .then(() => {
+            dispatch(initializedSuccess())
         })
     }
 }

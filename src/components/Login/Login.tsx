@@ -6,13 +6,12 @@ export  type LoginFormPropsType = {
     logIn: (email: string | null, password: string | null, rememberMe: boolean) => void
     isAuth: boolean
 }
-const Login: React.FC<LoginFormPropsType> = ({logIn, isAuth}) => {
+const Login: React.FC<LoginFormPropsType> = React.memo(({logIn, isAuth}) => {
 
     const onSubmit = (formData: LoginFormValuesType) => {
         logIn(formData.email, formData.password, formData.rememberMe)
         // console.log(formData)
     }
-
 
     if (isAuth) {
         return (<Redirect to={'/profile'}/>)
@@ -22,6 +21,6 @@ const Login: React.FC<LoginFormPropsType> = ({logIn, isAuth}) => {
             <LoginReduxForm onSubmit={onSubmit}/>
         </div>)
     }
-}
+})
 
 export default Login
