@@ -1,15 +1,21 @@
+import profileReducer, {
+    addPost,
+    PostsType,
+    ProfilePageType,
+    ProfileType,
+    setStatus,
+    setUserProfile
+} from './profile-reducer';
 
+let startState: ProfilePageType
 
-import profileReducer, {addPost, PostsType, ProfilePageType, updateNewPostText} from "./profile-reducer";
-
-test('correct post should be added', () => {
-    let startState: ProfilePageType = {
+beforeEach(() => {
+    startState = {
         posts: [
             {id: 1, message: 'Hi, how are you?', likesCount: 15},
             {id: 2, message: 'It is my first post', likesCount: 20},
             {id: 3, message: 'Hello', likesCount: 1}
         ],
-        newPostText: '',
         profile: {
             aboutMe: '',
             userId: 0,
@@ -31,37 +37,37 @@ test('correct post should be added', () => {
                 large: undefined,
             },
         },
+        status: 'Some status'
     }
+})
+
+test('correct post should be added', () => {
+
+    let newPostText = 'Hello'
+    let action = addPost(newPostText)
     const newPost: PostsType = {
         id: 4,
-        message: startState.newPostText,
+        message: action.newPostText,
         likesCount: 0
     }
-    let action = addPost()
     let endState = profileReducer(startState, action)
 
     expect(endState.posts.length).toBe(4)
     expect(endState.posts[3].id).toBe(4)
-    expect(endState.posts[3].message).toBe('')
+    expect(endState.posts[3].message).toBe('Hello')
     expect(startState.posts.length).toBe(3)
 })
 
-test('correct new post message should be updated', () => {
-    let startState: ProfilePageType = {
-        posts: [
-            {id: 1, message: 'Hi, how are you?', likesCount: 15},
-            {id: 2, message: 'It is my first post', likesCount: 20},
-            {id: 3, message: 'Hello', likesCount: 1}
-        ],
-        newPostText: '',
-        profile: {
-            aboutMe: '',
-            userId: 0,
-            lookingForAJob: false,
-            lookingForAJobDescription: '',
-            fullName: '',
+test('correct user profile should be set', () => {
+
+    let userProfile: ProfileType = {
+        aboutMe: 'I am developer',
+            userId: 1234,
+            lookingForAJob: true,
+            lookingForAJobDescription: 'Front-end developer',
+            fullName: 'Inna Fomichova',
             contacts: {
-                github: '',
+            github: '',
                 vk: '',
                 facebook: '',
                 instagram: '',
@@ -69,18 +75,28 @@ test('correct new post message should be updated', () => {
                 website: '',
                 youtube: '',
                 mainLink: '',
-            },
-            photos: {
-                small: undefined,
+        },
+        photos: {
+            small: undefined,
                 large: undefined,
-            },
-        }
+        },
     }
 
-    let newPostText = "I am happy!!!"
-    let action = updateNewPostText(newPostText)
+    let action = setUserProfile(userProfile)
     let endState = profileReducer(startState, action)
 
-    expect(endState.newPostText).toBe("I am happy!!!")
-    expect(startState.newPostText).toBe("")
+    expect(endState.profile.fullName).toBe("Inna Fomichova")
+    expect(startState.profile.photos).toBeDefined()
+    expect(startState.profile.contacts).toBeDefined()
+})
+
+test('correct user status should be set', () => {
+
+    let userStatus = 'I am front-end developer)))'
+
+    let action = setStatus(userStatus)
+    let endState = profileReducer(startState, action)
+
+    expect(endState.status).toBe("I am front-end developer)))")
+
 })
