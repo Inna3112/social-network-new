@@ -1,5 +1,5 @@
 import profileReducer, {
-    addPost,
+    addPost, deletePost,
     PostsType,
     ProfilePageType,
     ProfileType,
@@ -98,5 +98,16 @@ test('correct user status should be set', () => {
     let endState = profileReducer(startState, action)
 
     expect(endState.status).toBe("I am front-end developer)))")
+
+})
+
+test('post should be deleted', () => {
+
+    let postId = 1
+    let action = deletePost(postId)
+    let endState = profileReducer(startState, action)
+
+    expect(endState.posts.length).toBe(2)
+    expect(endState.posts[0].id).toBe(2)
 
 })
