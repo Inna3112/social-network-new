@@ -16,7 +16,7 @@ type GetResponseType = {
     totalCount: number
     error: string
 }
-type FollowResponseType = {
+export type FollowResponseType = {
     resultCode: number
     messages: String[]
     data: object
