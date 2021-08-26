@@ -1,6 +1,7 @@
-import {FollowResponseType, usersAPI} from '../api/api';
+import {usersAPI} from '../api/api';
 import {AppThunk} from './redux-store';
 import {Dispatch} from 'react';
+import {updateObjectInArray} from "../utils/object-helpers";
 
 export type LocationType = {
     city: string
@@ -47,16 +48,19 @@ const usersReducer = (state = initialState, action: UserActionType): UsersStateT
         case 'samurai-network/users-page/FOLLOW':
             return {
                 ...state,
-                users: state.users.map(u => {
-                    return u.id === action.userId ? {...u, followed: true} : u
-                })
+                users: updateObjectInArray(state.users, action.userId, 'id', {followed: true})
+                    // state.users.map(u => {
+                    // return u.id === action.userId ? {...u, followed: true} : u
+                // })
             }
         case 'samurai-network/users-page/UNFOLLOW':
             return {
                 ...state,
-                users: state.users.map(u => {
-                    return u.id === action.userId ? {...u, followed: false} : u
-                })
+                users:
+                    updateObjectInArray(state.users, action.userId, 'id', {followed: false})
+                //     state.users.map(u => {
+                //     return u.id === action.userId ? {...u, followed: false} : u
+                // })
             }
         case 'samurai-network/users-page/SET-USERS':
             return {
