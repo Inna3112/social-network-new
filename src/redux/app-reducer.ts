@@ -14,7 +14,7 @@ let initialState: appStateType = {
 
 const appReducer = (state = initialState, action: AppActionType): appStateType => {
     switch (action.type) {
-        case 'INITIALIZED-SUCCESS':
+        case 'samurai-network/app/INITIALIZED-SUCCESS':
             return {
                 ...state,
                 initialized: true
@@ -24,7 +24,7 @@ const appReducer = (state = initialState, action: AppActionType): appStateType =
     }
 }
 export const initializedSuccess = () => ({
-        type: 'INITIALIZED-SUCCESS'
+        type: 'samurai-network/app/INITIALIZED-SUCCESS'
     }
 ) as const
 
