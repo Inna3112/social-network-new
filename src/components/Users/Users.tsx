@@ -32,13 +32,14 @@ let Users: React.FC<PropsType> = (props) => {
 
         <Paginator pageSize={pageSize} totalUsersCount={totalUsersCount} currentPage={currentPage}
                    onPageChanged={onPageChanged}/>
-
-        {users.map(u => <User key={u.id}
-                              user={u}
-                              follow={follow}
-                              unFollow={unFollow}
-                              followingInProgress={followingInProgress}/>
-        )}
+        <div>
+            {users.map(u => <User key={u.id}
+                                  user={u}
+                                  follow={follow}
+                                  unFollow={unFollow}
+                                  followingInProgress={followingInProgress}/>
+            )}
+        </div>
     </div>
 }
 
