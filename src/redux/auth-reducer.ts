@@ -53,7 +53,7 @@ export const getMe = (): AppThunk => {
 
 export const logIn = (email: string | null, password: string | null, rememberMe: boolean): AppThunk => {
     return async (dispatch, getState) => {
-        const response = await authAPI.logIn(email, password, rememberMe)
+        let response = await authAPI.logIn(email, password, rememberMe)
         if (response.data.resultCode === 0) {
             dispatch(getMe())
         } else {
@@ -64,7 +64,7 @@ export const logIn = (email: string | null, password: string | null, rememberMe:
 }
 export const logout = (): AppThunk => {
     return async (dispatch, getState) => {
-        const response = await authAPI.logout()
+        let response = await authAPI.logout()
         if (response.data.resultCode === 0) {
             dispatch(setAuthUserData(null, null, null, false))
         }
