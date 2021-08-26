@@ -28,7 +28,7 @@ export type DialogActionType = ReturnType<typeof addMessageAC>
 
 const dialogsReducer = (state = initialState, action: DialogActionType): DialogsPageType => {
     switch (action.type) {
-        case 'ADD-MESSAGE':
+        case 'samurai-network/dialogsPage/ADD-MESSAGE':
             const newMessage: MessagesType = {
                 id: 4,
                 message: action.newMessageBody
@@ -40,7 +40,7 @@ const dialogsReducer = (state = initialState, action: DialogActionType): Dialogs
             return state
     }
 }
-export let addMessageAC = (newMessageBody: string) => ({type: 'ADD-MESSAGE', newMessageBody}) as const
+export let addMessageAC = (newMessageBody: string) => ({type: 'samurai-network/dialogsPage/ADD-MESSAGE', newMessageBody}) as const
 
 
 export default dialogsReducer
