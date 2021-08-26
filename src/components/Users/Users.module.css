@@ -10,13 +10,7 @@
 .followingBlock {
     margin: 10px;
 }
-.page {
-   cursor: pointer;
-    margin-left: 10px;
-}
-.selectedPage {
-    font-weight: bold;
-}
+
 .content {
     border: 2px solid silver;
     border-radius: 10px;
