@@ -11,30 +11,30 @@ type PropsType = {
 }
 
 
-const ProfileInfo = (props: PropsType) => {
-    if(!props.profile){
+const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status}) => {
+    if(!profile){
         return <Preloader />
     }
     return (
             <div className={s.descriptionBlock}>
-                <img src={props.profile.photos.large}/>
+                <img src={profile.photos.large}/>
 
-                <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus} />
+                <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
 
                 <div>
-                    <div className={s.profileItem}>My name: {props.profile.fullName}</div>
-                    <div className={s.profileItem}>About me: {props.profile.aboutMe}</div>
-                    <div className={s.profileItem}>Looking for a job: {props.profile.lookingForAJob ? 'Yes' : 'No'}</div>
-                    <div className={s.profileItem}>Job description: {props.profile.lookingForAJobDescription}</div>
+                    <div className={s.profileItem}>My name: {profile.fullName}</div>
+                    <div className={s.profileItem}>About me: {profile.aboutMe}</div>
+                    <div className={s.profileItem}>Looking for a job: {profile.lookingForAJob ? 'Yes' : 'No'}</div>
+                    <div className={s.profileItem}>Job description: {profile.lookingForAJobDescription}</div>
                     <div className={s.profileItem}>My contacts:
-                        <div className={s.contact}>{props.profile.contacts.facebook}</div>
-                        <div className={s.contact}>{props.profile.contacts.github}</div>
-                        <div className={s.contact}>{props.profile.contacts.instagram}</div>
-                        <div className={s.contact}>{props.profile.contacts.twitter}</div>
-                        <div className={s.contact}>{props.profile.contacts.vk}</div>
-                        <div className={s.contact}>{props.profile.contacts.youtube}</div>
-                        <div className={s.contact}>{props.profile.contacts.website}</div>
-                        <div className={s.contact}>{props.profile.contacts.mainLink}</div>
+                        <div className={s.contact}>{profile.contacts.facebook}</div>
+                        <div className={s.contact}>{profile.contacts.github}</div>
+                        <div className={s.contact}>{profile.contacts.instagram}</div>
+                        <div className={s.contact}>{profile.contacts.twitter}</div>
+                        <div className={s.contact}>{profile.contacts.vk}</div>
+                        <div className={s.contact}>{profile.contacts.youtube}</div>
+                        <div className={s.contact}>{profile.contacts.website}</div>
+                        <div className={s.contact}>{profile.contacts.mainLink}</div>
                     </div>
                 </div>
             </div>
