@@ -11,16 +11,22 @@ type PropsType = {
     messages: Array<MessagesType>
     newMessageBody: string
     addMessage: (newMessageBody: string) => void
-    updateNewMessageBody: (body:string) => void
+    updateNewMessageBody: (body: string) => void
     isAuth: boolean
 }
 const Dialogs: React.FC<PropsType> = (props) => {
 
-    const addNewMessage = (values: {newMessageBody: string}) => {
-        props.addMessage(values.newMessageBody)
+    const {
+        dialogs,
+        messages,
+        addMessage,
+    } = props
+
+    const addNewMessage = (values: { newMessageBody: string }) => {
+        addMessage(values.newMessageBody)
     }
-    let dialogsElements = props.dialogs.map(d => <Dialog key={d.id} name={d.name} id={d.id}/>)
-    let messagesElements = props.messages.map(m => <Message key={m.id} message={m.message} id={m.id}/>)
+    let dialogsElements = dialogs.map(d => <Dialog key={d.id} name={d.name} id={d.id}/>)
+    let messagesElements = messages.map(m => <Message key={m.id} message={m.message} id={m.id}/>)
 
     return (
         <div className={s.dialogs}>
