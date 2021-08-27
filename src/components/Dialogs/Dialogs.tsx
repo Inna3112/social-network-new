@@ -24,6 +24,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
 
     const addNewMessage = (values: { newMessageBody: string }) => {
         addMessage(values.newMessageBody)
+        values.newMessageBody = ''
     }
     let dialogsElements = dialogs.map(d => <Dialog key={d.id} name={d.name} id={d.id}/>)
     let messagesElements = messages.map(m => <Message key={m.id} message={m.message} id={m.id}/>)
