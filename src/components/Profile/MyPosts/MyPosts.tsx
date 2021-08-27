@@ -14,8 +14,8 @@ type PropsType = {
 }
 
 
-const MyPosts: React.FC<PropsType> = React.memo((props) => {
-    let postsElement = props.posts
+const MyPosts: React.FC<PropsType> = React.memo(({posts, addPost}) => {
+    let postsElement = posts
         .map(p => <Post key={p.id} id={p.id} message={p.message} likesCount={p.likesCount}/>)
 
     // let addPost = () => {
@@ -26,7 +26,8 @@ const MyPosts: React.FC<PropsType> = React.memo((props) => {
     //     props.updateNewPostText(e.currentTarget.value)
     // }
     const addNewPost = (values: {newPostText: string}) => {
-        props.addPost(values.newPostText)
+        addPost(values.newPostText)
+        values.newPostText = ''
     }
     return (
         <div className={s.myPosts}>
