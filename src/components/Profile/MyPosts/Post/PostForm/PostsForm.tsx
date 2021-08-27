@@ -10,9 +10,9 @@ type PostsFormOwnProps = {
 
 }
 const maxLength10 = maxLengthCreator(10)
-const PostsForm: React.FC<InjectedFormProps<PostsFormValuesType, PostsFormOwnProps> & PostsFormOwnProps> = (props) => {
+const PostsForm: React.FC<InjectedFormProps<PostsFormValuesType, PostsFormOwnProps> & PostsFormOwnProps> = ({handleSubmit}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <Field component={Textarea} name={'newPostText'}
                    validate={[required, maxLength10]} />
             <div>

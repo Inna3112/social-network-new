@@ -7,12 +7,12 @@ type PropsType = {
     message: string
     likesCount: number
 }
-const Post: React.FC<PropsType> = (props) => {
+const Post: React.FC<PropsType> = ({id, message, likesCount}) => {
     return (
         <div className={s.item}>
             <img src={ava}/>
-            {props.message}
-            <div><span>{props.likesCount}</span></div>
+            {message}
+            <div><span>{likesCount}</span></div>
         </div>
 
     )
