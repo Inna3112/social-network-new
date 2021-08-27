@@ -10,10 +10,10 @@ type DialogsFormOwnProps = {
 
 }
 const maxLength10 = maxLengthCreator(10)
-const DialogsForm: React.FC<InjectedFormProps<DialogsFormValuesType, DialogsFormOwnProps> & DialogsFormOwnProps> = (props) => {
+const DialogsForm: React.FC<InjectedFormProps<DialogsFormValuesType, DialogsFormOwnProps> & DialogsFormOwnProps> = ({handleSubmit}) => {
 
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field component={Textarea} name={'newMessageBody'}
                        placeholder={'Enter your message'}

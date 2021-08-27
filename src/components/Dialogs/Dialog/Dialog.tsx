@@ -8,11 +8,11 @@ type PropsType = {
     id: number
 }
 
-const Dialog: React.FC <PropsType> = (props) => {
-    let path = '/dialogs/' + props.id;
+const Dialog: React.FC <PropsType> = ({id, name}) => {
+    let path = '/dialogs/' + id;
     return (
         <div className={s.dialog + ' ' + s.active}>
-            <NavLink to={path}>{props.name}</NavLink>
+            <NavLink to={path}>{name}</NavLink>
         </div>
     )
 }
