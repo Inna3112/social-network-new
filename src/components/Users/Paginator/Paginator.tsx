@@ -40,7 +40,7 @@ let Paginator: React.FC<PropsType> = ({totalItemsCount, pageSize, currentPage,
                     return <span key={index}
                                  className={cn({
                                      [s.selectedPage] : currentPage === p
-                                 }, s.pageNumber)}
+                                 }, s.page)}
                                  // className={currentPage === p ? `${s.selectedPage} ${s.page}` : s.page}
                                  onClick={(e) => {
                                      onPageChanged(p)

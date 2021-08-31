@@ -10,7 +10,7 @@
 }
 
 .page {
-    border: 1px solid;
+    border: 1px solid grey;
     cursor: pointer;
     margin: 5px 1px 0 0;
 }
