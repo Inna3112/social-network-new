@@ -1,7 +1,23 @@
-.page {
-   cursor: pointer;
-    margin-left: 10px;
+.paginator {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
 }
+
+.prevBtn {
+    margin: 5px 1px 0 1px;
+}
+
+.page {
+    border: 1px solid;
+    cursor: pointer;
+    margin: 5px 1px 0 0;
+}
+
 .selectedPage {
     font-weight: bold;
+}
+
+.nextBtn {
+    margin: 5px 1px 0 0;
 }

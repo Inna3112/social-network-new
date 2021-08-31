@@ -16,7 +16,8 @@ let Paginator: React.FC<PropsType> = ({totalUsersCount, pageSize, currentPage, o
         pages.push(i)
     }
     return (
-        <div>
+        <div className={s.paginator}>
+            <button className={s.prevBtn}>PREV</button>
             {pages.map((p, index) => {
                 return <span key={index}
                              className={currentPage === p ? `${s.selectedPage} ${s.page}` : s.page}
@@ -25,6 +26,7 @@ let Paginator: React.FC<PropsType> = ({totalUsersCount, pageSize, currentPage, o
                              }}
                 >{p}</span>
             })}
+            <button className={s.nextBtn}>NEXT</button>
         </div>
     )
 }
