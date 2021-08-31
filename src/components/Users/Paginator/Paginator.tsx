@@ -29,18 +29,20 @@ let Paginator: React.FC<PropsType> = ({totalItemsCount, pageSize, currentPage, o
     }
     return (
         <div className={s.paginator}>
-            <button className={s.prevBtn} onClick={prevBtnHandler}>PREV</button>
+            {portionNumber > 1 &&
+            <button className={s.prevBtn} onClick={prevBtnHandler}>PREV</button>}
             {pages
                 .filter(p => p >= leftPortionPageNumber - 1 && p <= rightPortionPageNumber + 1)
                 .map((p, index) => {
-                return <span key={index}
-                             className={currentPage === p ? `${s.selectedPage} ${s.page}` : s.page}
-                             onClick={(e) => {
-                                 onPageChanged(p)
-                             }}
-                >{p}</span>
-            })}
-            <button className={s.nextBtn} onClick={nextBtnHandler}>NEXT</button>
+                    return <span key={index}
+                                 className={currentPage === p ? `${s.selectedPage} ${s.page}` : s.page}
+                                 onClick={(e) => {
+                                     onPageChanged(p)
+                                 }}
+                    >{p}</span>
+                })}
+            {portionCount > portionNumber &&
+            <button className={s.nextBtn} onClick={nextBtnHandler}>NEXT</button>}
         </div>
     )
 }
