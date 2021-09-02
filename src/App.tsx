@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import {Route, RouteComponentProps, withRouter} from 'react-router-dom';
-import DialogsContainer from './components/Dialogs/DialogsContainer';
-import UsersContainer from './components/Users/UsersContainer';
-import ProfileContainer from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
-import LoginContainer from './components/Login/LoginContainer';
 import {connect} from 'react-redux';
 import {AppStateType} from './redux/redux-store';
 import {appStateType, initializeApp} from './redux/app-reducer';
+
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
+const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
+const LoginContainer = React.lazy(() => import('./components/Login/LoginContainer'));
 
 type MapStatePropsType = {
     initialized: boolean
@@ -34,12 +35,30 @@ class App extends React.Component<PropsType & RouteComponentProps> {
                     <HeaderContainer/>
                     <Navbar/>
                     <div className="app-wrapper-content">
-                        <Route path='/dialogs' render={() => <DialogsContainer
-                        />}/>
-                        <Route path='/profile/:userId?' render={() => <ProfileContainer
-                        />}/>
-                        <Route path='/users' render={() => <UsersContainer/>}/>
-                        <Route path='/login' render={() => <LoginContainer/>}/>
+                        <Route path='/dialogs'
+                               render={() => {
+                                   return <Suspense fallback={<div>Завантаження...</div>}>
+                                       <DialogsContainer/>
+                                   </Suspense>
+                               }}/>
+                        <Route path='/profile/:userId?'
+                               render={() => {
+                                   return <Suspense fallback={<div>Завантаження...</div>}>
+                                       <ProfileContainer/>
+                                   </Suspense>
+                               }}/>
+                        <Route path='/users'
+                               render={() => {
+                                   return <Suspense fallback={<div>Завантаження...</div>}>
+                                       <UsersContainer/>
+                                   </Suspense>
+                               }}/>
+                        <Route path='/login'
+                               render={() => {
+                                   return <Suspense fallback={<div>Завантаження...</div>}>
+                                       <LoginContainer/>
+                                   </Suspense>
+                               }}/>
                     </div>
                 </div>
             )
