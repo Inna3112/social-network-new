@@ -6,6 +6,7 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import {connect} from 'react-redux';
 import {AppStateType} from './redux/redux-store';
 import {appStateType, initializeApp} from './redux/app-reducer';
+import {withSuspense} from "./HOC/withSuspense";
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
@@ -48,11 +49,7 @@ class App extends React.Component<PropsType & RouteComponentProps> {
                                    </Suspense>
                                }}/>
                         <Route path='/users'
-                               render={() => {
-                                   return <Suspense fallback={<div>Завантаження...</div>}>
-                                       <UsersContainer/>
-                                   </Suspense>
-                               }}/>
+                               render={ withSuspense(UsersContainer) }/>
                         <Route path='/login'
                                render={() => {
                                    return <Suspense fallback={<div>Завантаження...</div>}>
