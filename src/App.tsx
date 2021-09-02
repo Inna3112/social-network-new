@@ -37,25 +37,13 @@ class App extends React.Component<PropsType & RouteComponentProps> {
                     <Navbar/>
                     <div className="app-wrapper-content">
                         <Route path='/dialogs'
-                               render={() => {
-                                   return <Suspense fallback={<div>Завантаження...</div>}>
-                                       <DialogsContainer/>
-                                   </Suspense>
-                               }}/>
+                               render={withSuspense(DialogsContainer)}/>
                         <Route path='/profile/:userId?'
-                               render={() => {
-                                   return <Suspense fallback={<div>Завантаження...</div>}>
-                                       <ProfileContainer/>
-                                   </Suspense>
-                               }}/>
+                               render={withSuspense(ProfileContainer)}/>
                         <Route path='/users'
-                               render={ withSuspense(UsersContainer) }/>
+                               render={withSuspense(UsersContainer) }/>
                         <Route path='/login'
-                               render={() => {
-                                   return <Suspense fallback={<div>Завантаження...</div>}>
-                                       <LoginContainer/>
-                                   </Suspense>
-                               }}/>
+                               render={withSuspense(LoginContainer)}/>
                     </div>
                 </div>
             )
