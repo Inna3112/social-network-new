@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './ProfileInfo.module.css'
 import {ProfileType} from '../../../redux/profile-reducer';
 import Preloader from '../../../common/Preloader/Preloader';
@@ -8,18 +8,27 @@ import avaPost from './../../../assets/images/avaPost.png'
 type PropsType = {
     profile: ProfileType
     status: string
+    isOwner: boolean
     updateStatus: (status: string) => void
+    savePhoto: (file: any) => void
 }
 
 
-const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status}) => {
+const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status, isOwner, savePhoto}) => {
     if(!profile){
         return <Preloader />
     }
+
+    const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files && e.target.files.length){
+            savePhoto(e.target.files[0])
+        }
+    }
+
     return (
             <div className={s.descriptionBlock}>
                 <img className={s.mainPhoto} src={profile.photos.large || avaPost} alt={'Main photo'}/>
-
+                {isOwner && <input type='file' onChange={onMainPhotoSelected}/>}
                 <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
 
                 <div>

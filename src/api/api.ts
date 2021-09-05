@@ -62,7 +62,7 @@ export const profileAPI = {
         let formData = new FormData()
         formData.append("image", photoFile)
 
-        return instance.put<ResponseType<{ small: string, large: string }>>(`profile/photo`, formData, {
+        return instance.put<ResponseType<{ photos: {small: string, large: string} }>>(`profile/photo`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

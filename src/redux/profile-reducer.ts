@@ -150,7 +150,7 @@ export const savePhoto = (file: any): AppThunk => {
     return async (dispatch) => {
         let response = await profileAPI.savaPhoto(file)
         if(response.data.resultCode === 0){
-            dispatch(savePhotoSuccess(file))
+            dispatch(savePhotoSuccess(response.data.data.photos))
         }
     }
 }
