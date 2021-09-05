@@ -18,6 +18,7 @@ type GetResponseType = {
 }
 export type ResponseType<T> = {
     resultCode: number
+    fieldsErrors: []
     messages: String[]
     data: T
 }
