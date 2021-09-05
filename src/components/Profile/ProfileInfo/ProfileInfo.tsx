@@ -2,7 +2,8 @@ import React from 'react';
 import s from './ProfileInfo.module.css'
 import {ProfileType} from '../../../redux/profile-reducer';
 import Preloader from '../../../common/Preloader/Preloader';
-import ProfileStatusWithHooks from "./ProfileStatus/ProfileStatusWithHooks";
+import ProfileStatusWithHooks from './ProfileStatus/ProfileStatusWithHooks';
+import avaPost from './../../../assets/images/avaPost.png'
 
 type PropsType = {
     profile: ProfileType
@@ -17,7 +18,7 @@ const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status}) => {
     }
     return (
             <div className={s.descriptionBlock}>
-                <img src={profile.photos.large}/>
+                <img className={s.mainPhoto} src={profile.photos.large || avaPost} alt={'Main photo'}/>
 
                 <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
 
