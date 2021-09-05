@@ -16,10 +16,19 @@ type GetResponseType = {
     totalCount: number
     error: string
 }
-export type FollowResponseType = {
+export type ResponseType<T> = {
     resultCode: number
     messages: String[]
-    data: object
+    data: T
+}
+type GetMeResponseType = {
+    id: number | null,
+    email: string | null,
+    login: string | null,
+}
+
+type LoginResponseType = {
+    userId: number
 }
 
 export const usersAPI = {
@@ -28,10 +37,10 @@ export const usersAPI = {
             .then(response => response.data)
     },
     followSuccess(userId: number) {
-        return instance.post<FollowResponseType>(`follow/${userId}`)
+        return instance.post<ResponseType<{}>>(`follow/${userId}`)
     },
     unFollowSuccess(userId: number) {
-        return instance.delete<FollowResponseType>(`follow/${userId}`)
+        return instance.delete<ResponseType<{}>>(`follow/${userId}`)
     },
     getProfile(userId: number | null) {
         console.warn('Obsolete method. Please use profileAPI object!')
@@ -39,11 +48,6 @@ export const usersAPI = {
     }
 }
 
-type UpdateStatusType = {
-    resultCode: number
-    messages: string[]
-    data: {}
-}
 export const profileAPI = {
     getProfile(userId: number | null) {
         return instance.get<ProfileType>(`profile/` + userId)
@@ -51,44 +55,33 @@ export const profileAPI = {
     getStatus(userId: number | null) {
         return instance.get<string>(`profile/status/` + userId)
     },
-    updateStatus(status: string){
-        return instance.put<UpdateStatusType>(`profile/status`, {status: status})
-    }
-}
-type getMeResponseType = {
-    resultCode: number
-    messages: string []
-    data: {
-        id: number | null,
-        email: string | null,
-        login: string | null,
+    updateStatus(status: string) {
+        return instance.put<ResponseType<{}>>(`profile/status`, {status: status})
+    },
+    savaPhoto(photoFile: any) {
+        let formData = new FormData()
+        formData.append("image", photoFile)
+
+        return instance.put<ResponseType<{ small: string, large: string }>>(`profile/photo`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
     }
 }
 
-type LoginResponseType = {
-    resultCode: number
-    messages: string[],
-    data: {
-        userId: number
-    }
-}
-type LogoutResponseType = {
-    resultCode: number
-    messages: string []
-    data: {}
-}
 export const authAPI = {
-    getMe(){
-        return instance.get<getMeResponseType>('auth/me')
+    getMe() {
+        return instance.get<ResponseType<GetMeResponseType>>('auth/me')
             .then(response => response.data)
     },
-    logIn(email: string | null, password: string | null, rememberMe = false){
-        return instance.post<LoginResponseType>('auth/login', {
+    logIn(email: string | null, password: string | null, rememberMe = false) {
+        return instance.post<ResponseType<LoginResponseType>>('auth/login', {
             email, password, rememberMe
         })
     },
-    logout(){
-        return instance.delete<LogoutResponseType>('auth/login')
+    logout() {
+        return instance.delete<ResponseType<{}>>('auth/login')
     }
 }
 
