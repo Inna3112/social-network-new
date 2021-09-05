@@ -43,7 +43,6 @@ let initialState: ProfilePageType = {
         {id: 2, message: 'It is my first post', likesCount: 20},
         {id: 3, message: 'Hello', likesCount: 1}
     ],
-    // newPostText: '',
     profile: {
         aboutMe: '',
         userId: 0,
@@ -69,9 +68,9 @@ let initialState: ProfilePageType = {
 }
 export type ProfileActionType = ReturnType<typeof addPost>
     | ReturnType<typeof deletePost>
-    // | ReturnType<typeof updateNewPostText>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
+    | ReturnType<typeof savePhotoSuccess>
 
 
 const profileReducer = (state = initialState, action: ProfileActionType): ProfilePageType => {
@@ -94,12 +93,6 @@ const profileReducer = (state = initialState, action: ProfileActionType): Profil
                 posts: state.posts.filter(p => p.id !== action.id)
             }
         }
-        // case 'UPDATE-NEW-POST-TEXT': {
-        //     return {
-        //         ...state,
-        //         newPostText: action.newText
-        //     }
-        // }
         case 'samurai-network/profile-page/SET-USER-PROFILE': {
             return {
                 ...state,
@@ -111,6 +104,12 @@ const profileReducer = (state = initialState, action: ProfileActionType): Profil
             return {
                 ...state,
                 status: action.status
+            }
+        }
+        case "samurai-network/profile-page/SAVE-PHOTO": {
+            return {
+                ...state,
+                profile: {...state.profile, photos: action.file}
             }
         }
         default:
@@ -125,8 +124,7 @@ export const setUserProfile = (profile: ProfileType) => ({
     profile
 }) as const
 export const setStatus = (status: string) => ({type: 'samurai-network/profile-page/SET-STATUS', status}) as const
-// export const updateNewPostText = (newText: string) =>
-//     ({type: 'UPDATE-NEW-POST-TEXT', newText: newText}) as const
+export const savePhotoSuccess = (file: any) => ({type: 'samurai-network/profile-page/SAVE-PHOTO', file}) as const
 
 export const getProfile = (userId: number | null): AppThunk => {
     return async (dispatch, getState) => {
@@ -148,4 +146,13 @@ export const updateStatus = (status: string): AppThunk => {
         }
     }
 }
+export const savePhoto = (file: any): AppThunk => {
+    return async (dispatch) => {
+        let response = await profileAPI.savaPhoto(file)
+        if(response.data.resultCode === 0){
+            dispatch(savePhotoSuccess(file))
+        }
+    }
+}
+
 export default profileReducer
