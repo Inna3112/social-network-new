@@ -28,7 +28,7 @@ type MapDispatchPropsType = {
     getProfile: (userId: number | null) => void
     getStatus: (userId: number | null) => void
     updateStatus: (status: string) => void
-    savePhoto: (file: any) => void
+    savePhoto: (file: File) => void
 }
 type OwnProps = {}
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnProps & RouteComponentProps<PathParamsType>

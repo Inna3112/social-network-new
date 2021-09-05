@@ -8,7 +8,7 @@ type PropsType = {
     status: string
     isOwner: boolean
     updateStatus: (status: string) => void
-    savePhoto: (file: any) => void
+    savePhoto: (file: File) => void
 }
 
 

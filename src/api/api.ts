@@ -59,7 +59,7 @@ export const profileAPI = {
     updateStatus(status: string) {
         return instance.put<ResponseType<{}>>(`profile/status`, {status: status})
     },
-    savaPhoto(photoFile: any) {
+    savaPhoto(photoFile: File) {
         let formData = new FormData()
         formData.append("image", photoFile)
 

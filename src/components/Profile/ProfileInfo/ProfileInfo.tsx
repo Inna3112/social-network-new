@@ -10,7 +10,7 @@ type PropsType = {
     status: string
     isOwner: boolean
     updateStatus: (status: string) => void
-    savePhoto: (file: any) => void
+    savePhoto: (file: File) => void
 }
 
 
@@ -28,7 +28,9 @@ const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status, isOwne
     return (
             <div className={s.descriptionBlock}>
                 <img className={s.mainPhoto} src={profile.photos.large || avaPost} alt={'Main photo'}/>
+
                 {isOwner && <input type='file' onChange={onMainPhotoSelected}/>}
+
                 <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
 
                 <div>
