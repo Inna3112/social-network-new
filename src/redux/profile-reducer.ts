@@ -7,7 +7,7 @@ export type PostsType = {
     message: string
     likesCount: number
 }
-type ContactsType = {
+export type ContactsType = {
     github: string
     vk: string
     facebook: string
@@ -32,7 +32,6 @@ export type ProfileType = {
 }
 export type ProfilePageType = {
     posts: Array<PostsType>
-    // newPostText: string
     profile: ProfileType
     status: string
 }
