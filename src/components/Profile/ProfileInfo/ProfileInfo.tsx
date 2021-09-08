@@ -22,6 +22,9 @@ const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status, isOwne
     const activateEditMode = () => {
         setEditMode(true)
     }
+    const deactivateEditMode = () => {
+        setEditMode(false)
+    }
 
     if (!profile) {
         return <Preloader/>
@@ -55,9 +58,11 @@ const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status, isOwne
                     <div className={s.profileItem}><b>My professional skills:</b> {profile.lookingForAJobDescription}</div>
                 }
 
-                {editMode ? <ProfileDataForm /> : <ProfileData profile={profile}
-                                                               isOwner={isOwner}
-                                                               activateEditMode={activateEditMode}/>}
+                {editMode
+                    ? <ProfileDataForm deactivateEditMode={deactivateEditMode} />
+                    : <ProfileData profile={profile}
+                                   isOwner={isOwner}
+                                   activateEditMode={activateEditMode}/>}
             </div>
         </div>
 

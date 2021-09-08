@@ -4,8 +4,11 @@ import {useFormik} from 'formik';
 import {AppStateType} from '../../../../redux/redux-store';
 import {setProfileData} from "../../../../redux/profile-reducer";
 
+type PropsType = {
+    deactivateEditMode: () => void
+}
 
-const ProfileDataForm = () => {
+const ProfileDataForm: React.FC<PropsType> = ({deactivateEditMode}) => {
     const userId = useSelector<AppStateType, number | null>(state => state.auth.userId)
     const dispatch = useDispatch()
 
@@ -31,6 +34,7 @@ const ProfileDataForm = () => {
                 vk: values.vk, twitter: values.twitter, instagram: values.instagram, github: values.github}}))
             //зачищаем форму
             formik.resetForm()
+            deactivateEditMode()
         }
     })
     return (
