@@ -3,7 +3,7 @@ import s from './Dialogs.module.css';
 import Dialog from './Dialog/Dialog';
 import Message from './Message/Message';
 import {DialogsType, MessagesType} from '../../redux/dialogs-reducer';
-import {DialogsReduxForm} from './DialogsForm/DialogsForm';
+import {DialogsFormWithFormik} from "./DialogsForm/DialogsFormWithFormik";
 
 
 type PropsType = {
@@ -16,11 +16,7 @@ type PropsType = {
 }
 const Dialogs: React.FC<PropsType> = (props) => {
 
-    const {
-        dialogs,
-        messages,
-        addMessage,
-    } = props
+    const {dialogs, messages, addMessage} = props
 
     const addNewMessage = (values: { newMessageBody: string }) => {
         addMessage(values.newMessageBody)
@@ -37,7 +33,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
             <div className={s.messages}>
                 {messagesElements}
             </div>
-            <DialogsReduxForm onSubmit={addNewMessage}/>
+            <DialogsFormWithFormik/>
         </div>
 
     )

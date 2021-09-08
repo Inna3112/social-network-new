@@ -1,7 +1,7 @@
-import React from "react";
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {maxLengthCreator, required} from "../../../../../utils/validators/validators";
-import {Textarea} from "../../../../../common/FormsControl/FormsControl";
+import React from 'react';
+import {Field, InjectedFormProps, reduxForm} from 'redux-form';
+import {maxLengthCreator, required} from '../../../../../utils/validators/validators';
+import {Textarea} from '../../../../../common/FormsControl/FormsControl';
 
 type PostsFormValuesType = {
     newPostText: string

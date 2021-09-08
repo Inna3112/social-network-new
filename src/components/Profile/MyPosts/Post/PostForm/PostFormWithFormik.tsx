@@ -1,8 +1,11 @@
 import React from 'react';
 import {useFormik} from 'formik';
+import {useDispatch} from 'react-redux';
+import {addPost} from '../../../../../redux/profile-reducer';
 
 
 export const PostsFormWithFormik = () => {
+    const dispatch = useDispatch()
     const formik = useFormik({
         initialValues: {
             postText: '',
@@ -15,7 +18,7 @@ export const PostsFormWithFormik = () => {
             return errors
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2))
+            dispatch(addPost(values.postText))
             //зачищаем форму
             formik.resetForm()
         }
