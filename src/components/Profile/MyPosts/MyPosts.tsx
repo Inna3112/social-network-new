@@ -2,7 +2,7 @@ import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import { PostsType} from '../../../redux/store';
-import {PostsReduxForm} from './Post/PostForm/PostsForm';
+import {PostsFormWithFormik} from './Post/PostForm/PostFormWithFormik';
 
 
 type PropsType = {
@@ -33,7 +33,7 @@ const MyPosts: React.FC<PropsType> = React.memo(({posts, addPost}) => {
         <div className={s.myPosts}>
             <h3>My posts</h3>
             <div>
-                <PostsReduxForm onSubmit={addNewPost}/>
+                <PostsFormWithFormik />
                 <div className={s.posts}>
                     {postsElement}
                 </div>
