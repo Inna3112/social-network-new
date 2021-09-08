@@ -5,9 +5,12 @@ import {ProfileType} from '../../../../redux/profile-reducer';
 
 type ProfileDataPropsType = {
     profile: ProfileType
+    isOwner: boolean
+    activateEditMode: () => void
 }
 
-const ProfileData: React.FC<ProfileDataPropsType> = ({profile}) => {
+const ProfileData: React.FC<ProfileDataPropsType> = ({profile, isOwner, activateEditMode}) => {
+
     return (
         <div className={s.profileItem}><b>My contacts:</b>
             <div className={s.contact}>{profile.contacts.facebook ? profile.contacts.facebook : ''}</div>
@@ -18,6 +21,7 @@ const ProfileData: React.FC<ProfileDataPropsType> = ({profile}) => {
             <div className={s.contact}>{profile.contacts.youtube ? profile.contacts.youtube : ''}</div>
             <div className={s.contact}>{profile.contacts.website ? profile.contacts.website : ''}</div>
             <div className={s.contact}>{profile.contacts.mainLink ? profile.contacts.mainLink : ''}</div>
+            {isOwner && <div><button onClick={activateEditMode}>Change data</button></div>}
         </div>
     )
 }

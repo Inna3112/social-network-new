@@ -21,14 +21,16 @@ export type PhotosType = {
     small: string | undefined
     large: string | undefined
 }
-export type ProfileType = {
+export type ProfileType = ProfileDataType & {
+    photos: PhotosType
+}
+export type ProfileDataType = {
     aboutMe: string
     contacts: ContactsType
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
-    userId: number
-    photos: PhotosType
+    userId: number | null
 }
 export type ProfilePageType = {
     posts: Array<PostsType>
@@ -70,7 +72,7 @@ export type ProfileActionType = ReturnType<typeof addPost>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
     | ReturnType<typeof savePhotoSuccess>
-
+    | ReturnType<typeof setProfileDataSuccess>
 
 const profileReducer = (state = initialState, action: ProfileActionType): ProfilePageType => {
     switch (action.type) {
@@ -111,6 +113,12 @@ const profileReducer = (state = initialState, action: ProfileActionType): Profil
                 profile: {...state.profile, photos: action.file}
             }
         }
+        case "samurai-network/profile-page/SET-PROFILE-DATA": {
+            return {
+                ...state,
+                profile: {...action.profileData, photos: state.profile.photos}
+            }
+        }
         default:
             return state
     }
@@ -124,6 +132,7 @@ export const setUserProfile = (profile: ProfileType) => ({
 }) as const
 export const setStatus = (status: string) => ({type: 'samurai-network/profile-page/SET-STATUS', status}) as const
 export const savePhotoSuccess = (file: any) => ({type: 'samurai-network/profile-page/SAVE-PHOTO', file}) as const
+export const setProfileDataSuccess = (profileData: ProfileDataType) => ({type: 'samurai-network/profile-page/SET-PROFILE-DATA', profileData}) as const
 
 export const getProfile = (userId: number | null): AppThunk => {
     return async (dispatch, getState) => {
@@ -150,6 +159,14 @@ export const savePhoto = (file: any): AppThunk => {
         let response = await profileAPI.savaPhoto(file)
         if(response.data.resultCode === 0){
             dispatch(savePhotoSuccess(response.data.data.photos))
+        }
+    }
+}
+export const setProfileData = (profileData: ProfileDataType): AppThunk => {
+    return async (dispatch) => {
+        let response = await profileAPI.setProfileData(profileData)
+        if(response.data.resultCode === 0){
+            dispatch(setProfileDataSuccess(response.data.data))
         }
     }
 }

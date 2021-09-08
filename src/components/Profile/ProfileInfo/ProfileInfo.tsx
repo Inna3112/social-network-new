@@ -1,10 +1,11 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import s from './ProfileInfo.module.css'
 import {ProfileType} from '../../../redux/profile-reducer';
 import Preloader from '../../../common/Preloader/Preloader';
 import ProfileStatusWithHooks from './ProfileStatus/ProfileStatusWithHooks';
 import avaPost from './../../../assets/images/avaPost.png'
 import ProfileData from "./ProfileData/ProfileData";
+import ProfileDataForm from "./ProfileDataForm/ProfileDataForm";
 
 type PropsType = {
     profile: ProfileType
@@ -16,6 +17,12 @@ type PropsType = {
 
 
 const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status, isOwner, savePhoto}) => {
+    let [editMode, setEditMode] = useState(false)
+
+    const activateEditMode = () => {
+        setEditMode(true)
+    }
+
     if (!profile) {
         return <Preloader/>
     }
@@ -47,8 +54,10 @@ const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status, isOwne
                     profile.lookingForAJob &&
                     <div className={s.profileItem}><b>My professional skills:</b> {profile.lookingForAJobDescription}</div>
                 }
-                <ProfileData profile={profile} />
 
+                {editMode ? <ProfileDataForm /> : <ProfileData profile={profile}
+                                                               isOwner={isOwner}
+                                                               activateEditMode={activateEditMode}/>}
             </div>
         </div>
 
