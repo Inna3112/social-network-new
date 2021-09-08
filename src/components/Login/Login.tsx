@@ -1,6 +1,7 @@
 import React from 'react';
 import LoginReduxForm, {LoginFormValuesType} from './LoginForm/LoginForm';
 import {Redirect} from "react-router-dom";
+import LoginFormWithFormik from "./LoginForm/LoginFormWithFormik";
 
 export  type LoginFormPropsType = {
     logIn: (email: string | null, password: string | null, rememberMe: boolean) => void
@@ -8,17 +9,18 @@ export  type LoginFormPropsType = {
 }
 const Login: React.FC<LoginFormPropsType> = React.memo(({logIn, isAuth}) => {
 
-    const onSubmit = (formData: LoginFormValuesType) => {
-        logIn(formData.email, formData.password, formData.rememberMe)
+    // const onSubmit = (formData: LoginFormValuesType) => {
+    //     logIn(formData.email, formData.password, formData.rememberMe)
         // console.log(formData)
-    }
+    // }
 
     if (isAuth) {
         return (<Redirect to={'/profile'}/>)
     } else {
         return (<div>
             <h1>Login</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
+            <LoginFormWithFormik />
+            {/*<LoginReduxForm onSubmit={onSubmit}/>*/}
         </div>)
     }
 })
