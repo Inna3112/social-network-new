@@ -40,52 +40,52 @@ const ProfileDataForm: React.FC<PropsType> = ({deactivateEditMode}) => {
     })
     return (
 
-        <form onSubmit={formik.handleSubmit}>
+        <form className={s.formStyle} onSubmit={formik.handleSubmit}>
             <div className={s.inputElement}>
-                <label htmlFor="fullName"><b>Full name</b></label>
+                <label htmlFor="fullName"><b>Full name:</b></label>
                 <input {...formik.getFieldProps('fullName')}/>
             </div>
             <div className={s.inputElement}>
-                <label htmlFor="aboutMe"><b>About me</b></label>
+                <label htmlFor="aboutMe"><b>About me:</b></label>
                 <textarea {...formik.getFieldProps('aboutMe')}/>
             </div>
-            <div className={s.inputElement}>
-                <label htmlFor="lookingForAJob"><b>Looking for a job</b></label>
+            <div className={s.checkboxStyle}>
+                <label htmlFor="lookingForAJob"><b>Looking for a job:</b></label>
                 <input type={'checkbox'} {...formik.getFieldProps('lookingForAJob')}/>
             </div>
             <div className={s.inputElement}>
-                <label htmlFor="lookingForAJobDescription"><b>Job description</b></label>
+                <label htmlFor="lookingForAJobDescription"><b>Job description:</b></label>
                 <textarea {...formik.getFieldProps('lookingForAJobDescription')}/>
             </div>
             <div className={s.inputElement}>
                 <label><b>Contacts:</b></label>
             </div>
             <div className={s.inputElement}>
-                <label htmlFor="facebook"><b>Facebook</b></label>
+                <label htmlFor="facebook"><b>Facebook:</b></label>
                 <input {...formik.getFieldProps('facebook')}/>
             </div>
             <div className={s.inputElement}>
-                <label htmlFor="github"><b>Github</b></label>
+                <label htmlFor="github"><b>Github:</b></label>
                 <input {...formik.getFieldProps('github')}/>
             </div>
             <div className={s.inputElement}>
-                <label htmlFor="instagram"><b>Instagram</b></label>
+                <label htmlFor="instagram"><b>Instagram:</b></label>
                 <input {...formik.getFieldProps('instagram')}/>
             </div>
             <div className={s.inputElement}>
-                <label htmlFor="vk"><b>VKontakte</b></label>
+                <label htmlFor="vk"><b>VKontakte:</b></label>
                 <input {...formik.getFieldProps('vk')}/>
             </div>
             <div className={s.inputElement}>
-                <label htmlFor="youtube"><b>Youtube</b></label>
+                <label htmlFor="youtube"><b>Youtube:</b></label>
                 <input {...formik.getFieldProps('youtube')}/>
             </div>
             <div className={s.inputElement}>
-                <label htmlFor="website"><b>Website</b></label>
+                <label htmlFor="website"><b>Website:</b></label>
                 <input {...formik.getFieldProps('website')}/>
             </div>
             <div className={s.inputElement}>
-                <label htmlFor="mainLink"><b>Main Link</b></label>
+                <label htmlFor="mainLink"><b>Main Link:</b></label>
                 <input {...formik.getFieldProps('mainLink')}/>
             </div>
             <div>

@@ -1,7 +1,25 @@
-.profileItem {
-    margin-top: 5px;
+.formStyle {
+    width: 500px;
 }
-.contact {
-    margin-left: 50px;
-    margin-top: 5px;
+.inputElement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+}
+.checkboxStyle {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 5px;
+}
+.checkboxStyle input {
+    margin: 5px;
+}
+.inputElement input {
+    width: 300px;
+    height: 20px;
+}
+.inputElement textarea {
+    width: 300px;
 }
