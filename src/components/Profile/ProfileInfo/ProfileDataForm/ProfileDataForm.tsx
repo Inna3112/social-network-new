@@ -2,7 +2,8 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useFormik} from 'formik';
 import {AppStateType} from '../../../../redux/redux-store';
-import {setProfileData} from "../../../../redux/profile-reducer";
+import {setProfileData} from '../../../../redux/profile-reducer';
+import s from './ProfileDataForm.module.css'
 
 type PropsType = {
     deactivateEditMode: () => void
@@ -40,41 +41,55 @@ const ProfileDataForm: React.FC<PropsType> = ({deactivateEditMode}) => {
     return (
 
         <form onSubmit={formik.handleSubmit}>
-            <label htmlFor="fullName">Full name</label>
-            <input {...formik.getFieldProps('fullName')}/>
-
-            <label htmlFor="aboutMe">About me</label>
-            <textarea {...formik.getFieldProps('aboutMe')}/>
-
-            <label htmlFor="lookingForAJob">Looking for a job</label>
-            <input type={'checkbox'} {...formik.getFieldProps('lookingForAJob')}/>
-
-            <label htmlFor="lookingForAJobDescription">Job description</label>
-            <textarea {...formik.getFieldProps('lookingForAJobDescription')}/>
-
-            <label>Contacts:</label>
-            <label htmlFor="facebook">Facebook</label>
-            <input {...formik.getFieldProps('facebook')}/>
-
-            <label htmlFor="github">Github</label>
-            <input {...formik.getFieldProps('github')}/>
-
-            <label htmlFor="instagram">Instagram</label>
-            <input {...formik.getFieldProps('instagram')}/>
-
-            <label htmlFor="vk">VKontakte</label>
-            <input {...formik.getFieldProps('vk')}/>
-
-            <label htmlFor="youtube">Youtube</label>
-            <input {...formik.getFieldProps('youtube')}/>
-
-            <label htmlFor="website">Website</label>
-            <input {...formik.getFieldProps('website')}/>
-
-            <label htmlFor="mainLink">Main Link</label>
-            <input {...formik.getFieldProps('mainLink')}/>
+            <div className={s.inputElement}>
+                <label htmlFor="fullName"><b>Full name</b></label>
+                <input {...formik.getFieldProps('fullName')}/>
+            </div>
+            <div className={s.inputElement}>
+                <label htmlFor="aboutMe"><b>About me</b></label>
+                <textarea {...formik.getFieldProps('aboutMe')}/>
+            </div>
+            <div className={s.inputElement}>
+                <label htmlFor="lookingForAJob"><b>Looking for a job</b></label>
+                <input type={'checkbox'} {...formik.getFieldProps('lookingForAJob')}/>
+            </div>
+            <div className={s.inputElement}>
+                <label htmlFor="lookingForAJobDescription"><b>Job description</b></label>
+                <textarea {...formik.getFieldProps('lookingForAJobDescription')}/>
+            </div>
+            <div className={s.inputElement}>
+                <label><b>Contacts:</b></label>
+            </div>
+            <div className={s.inputElement}>
+                <label htmlFor="facebook"><b>Facebook</b></label>
+                <input {...formik.getFieldProps('facebook')}/>
+            </div>
+            <div className={s.inputElement}>
+                <label htmlFor="github"><b>Github</b></label>
+                <input {...formik.getFieldProps('github')}/>
+            </div>
+            <div className={s.inputElement}>
+                <label htmlFor="instagram"><b>Instagram</b></label>
+                <input {...formik.getFieldProps('instagram')}/>
+            </div>
+            <div className={s.inputElement}>
+                <label htmlFor="vk"><b>VKontakte</b></label>
+                <input {...formik.getFieldProps('vk')}/>
+            </div>
+            <div className={s.inputElement}>
+                <label htmlFor="youtube"><b>Youtube</b></label>
+                <input {...formik.getFieldProps('youtube')}/>
+            </div>
+            <div className={s.inputElement}>
+                <label htmlFor="website"><b>Website</b></label>
+                <input {...formik.getFieldProps('website')}/>
+            </div>
+            <div className={s.inputElement}>
+                <label htmlFor="mainLink"><b>Main Link</b></label>
+                <input {...formik.getFieldProps('mainLink')}/>
+            </div>
             <div>
-                <button type='submit'>Submit</button>
+                <button type='submit'>Save</button>
             </div>
         </form>
     )
