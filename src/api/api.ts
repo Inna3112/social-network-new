@@ -70,7 +70,7 @@ export const profileAPI = {
         })
     },
     setProfileData(profileData: ProfileDataType){
-        return instance.put<ResponseType<ProfileDataType>>(`profile`, profileData)
+        return instance.put<ResponseType<{}>>(`profile`, profileData)
     },
 }
 

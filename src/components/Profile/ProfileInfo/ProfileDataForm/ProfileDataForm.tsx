@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useFormik} from 'formik';
 import {AppStateType} from '../../../../redux/redux-store';
-import {setProfileData} from '../../../../redux/profile-reducer';
+import {ProfileType, setProfileData} from '../../../../redux/profile-reducer';
 import s from './ProfileDataForm.module.css'
 
 type PropsType = {
@@ -11,22 +11,23 @@ type PropsType = {
 
 const ProfileDataForm: React.FC<PropsType> = ({deactivateEditMode}) => {
     const userId = useSelector<AppStateType, number | null>(state => state.auth.userId)
+    const profile = useSelector<AppStateType, ProfileType>(state => state.profilePage.profile)
     const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: {
-            fullName: '',
-            aboutMe: '',
-            lookingForAJob: false,
-            lookingForAJobDescription: '',
-            facebook: '',
-            github: '',
-            instagram: '',
-            twitter: '',
-            vk: '',
-            youtube: '',
-            website: '',
-            mainLink: '',
+            fullName: profile.fullName,
+            aboutMe: profile.aboutMe,
+            lookingForAJob: profile.lookingForAJob,
+            lookingForAJobDescription: profile.lookingForAJobDescription,
+            facebook: profile.contacts.facebook,
+            github: profile.contacts.github,
+            instagram: profile.contacts.instagram,
+            twitter: profile.contacts.twitter,
+            vk: profile.contacts.vk,
+            youtube: profile.contacts.youtube,
+            website: profile.contacts.website,
+            mainLink: profile.contacts.mainLink,
         },
         onSubmit: values => {
             dispatch(setProfileData({userId, fullName: values.fullName, aboutMe: values.aboutMe,

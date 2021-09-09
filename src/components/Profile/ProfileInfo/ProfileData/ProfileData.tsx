@@ -10,7 +10,6 @@ type ProfileDataPropsType = {
 }
 
 const ProfileData: React.FC<ProfileDataPropsType> = ({profile, isOwner, activateEditMode}) => {
-
     return (
         <div className={s.profileItem}>
             <div className={s.profileItem}><b>My name:</b> {profile.fullName}</div>
