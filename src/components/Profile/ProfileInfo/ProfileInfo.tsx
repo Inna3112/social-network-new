@@ -50,14 +50,6 @@ const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status, isOwne
             <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
 
             <div>
-                <div className={s.profileItem}><b>My name:</b> {profile.fullName}</div>
-                <div className={s.profileItem}><b>About me:</b> {profile.aboutMe}</div>
-                <div className={s.profileItem}><b>Looking for a job:</b> {profile.lookingForAJob ? 'Yes' : 'No'}</div>
-                {
-                    profile.lookingForAJob &&
-                    <div className={s.profileItem}><b>My professional skills:</b> {profile.lookingForAJobDescription}</div>
-                }
-
                 {editMode
                     ? <ProfileDataForm deactivateEditMode={deactivateEditMode} />
                     : <ProfileData profile={profile}
