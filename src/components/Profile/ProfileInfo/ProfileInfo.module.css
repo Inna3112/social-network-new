@@ -1,7 +1,11 @@
 .descriptionBlock {
+    width: 500px;
     padding: 10px;
 }
 .mainPhoto {
     width: 120px;
     height: 120px;
+}
+.profileItem {
+
 }
