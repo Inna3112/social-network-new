@@ -7,7 +7,7 @@ export type AuthStateType = {
     userId: number | null
     email: string | null
     login: string | null
-    captchaUrl: string | null
+    captchaUrl: string
     rememberMe: boolean
     isAuth: boolean
 
@@ -22,24 +22,17 @@ let initialState: AuthStateType = {
     login: '',
     rememberMe: false,
     isAuth: false,
-    captchaUrl: null
+    captchaUrl: ''
 }
 
 const authReducer = (state = initialState, action: AuthActionType): AuthStateType => {
     switch (action.type) {
-        case 'samurai-network/auth/SET-AUTH-USER-DATA':{
+        case 'samurai-network/auth/GET-CAPTCHA-URL-SUCCESS':
+        case 'samurai-network/auth/SET-AUTH-USER-DATA':
             return {
                 ...state,
                 ...action.payload,
             }
-        }
-        case 'samurai-network/auth/GET-CAPTCHA-URL-SUCCESS': {
-            return {
-                ...state,
-                ...action.payload,
-            }
-        }
-
         default:
             return state
     }
@@ -68,7 +61,7 @@ export const getMe = (): AppThunk => {
     }
 }
 
-export const logIn = (email: string | null, password: string | null, rememberMe: boolean): AppThunk => {
+export const logIn = (email: string | null, password: string | null, rememberMe: boolean, captcha: string): AppThunk => {
     return async (dispatch, getState) => {
         let response = await authAPI.logIn(email, password, rememberMe)
         if (response.data.resultCode === 0) {

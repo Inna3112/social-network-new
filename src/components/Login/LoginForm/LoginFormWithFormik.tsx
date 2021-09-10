@@ -1,22 +1,25 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
 import {useFormik} from 'formik';
-import {logIn} from '../../../redux/auth-reducer';
 
+type PropsType = {
+    logIn: (email: string | null, password: string | null, rememberMe: boolean, captcha: string) => void
+    captchaUrl: string
+}
 type FormikErrorType = {
     email?: string
     password?: string
     rememberMe?: boolean
+    captcha?: string
 }
 
-export const LoginFormWithFormik = () => {
-    const dispatch = useDispatch()
+export const LoginFormWithFormik: React.FC<PropsType> = ({logIn, captchaUrl}) => {
 
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
             rememberMe: false,
+            captcha: '',
         },
         validate: values => {
             const errors: FormikErrorType = {};
@@ -30,10 +33,13 @@ export const LoginFormWithFormik = () => {
             } else if (values.password.length < 4) {
                 errors.password = 'Must be 4 characters or more';
             }
+            // if (!values.captcha) {
+            //     errors.captcha = 'Required';
+            // }
             return errors
         },
         onSubmit: values => {
-            dispatch(logIn(values.email, values.password, values.rememberMe))
+            logIn(values.email, values.password, values.rememberMe, values.captcha)
             //зачищаем форму
             formik.resetForm()
         }
@@ -50,8 +56,14 @@ export const LoginFormWithFormik = () => {
             </div>
             <div>
                 <input type={'checkbox'} {...formik.getFieldProps('rememberMe')} />
-                {formik.touched.rememberMe && formik.errors.rememberMe ? <div style={{color: 'red'}}>{formik.errors.rememberMe}</div> : null}
+                {/*{formik.touched.rememberMe && formik.errors.rememberMe ? <div style={{color: 'red'}}>{formik.errors.rememberMe}</div> : null}*/}
             </div>
+            {captchaUrl &&
+            <div>
+                <input {...formik.getFieldProps('captcha')} />
+                {formik.touched.captcha && formik.errors.captcha ? <div style={{color: 'red'}}>{formik.errors.captcha}</div> : null}
+            </div>}
+            {captchaUrl && <div><img src={captchaUrl} alt="captchaUrl"/></div>}
             <div>
                 <button type='submit'>Login</button>
             </div>
