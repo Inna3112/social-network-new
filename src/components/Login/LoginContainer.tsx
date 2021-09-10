@@ -3,7 +3,7 @@ import {logIn} from '../../redux/auth-reducer';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import Login from "./Login";
-import {compose} from "redux";
+import {compose} from 'redux';
 
 
 type MapStatePropsType = {

@@ -1,5 +1,5 @@
 import {AppThunk} from './redux-store';
-import {authAPI} from '../api/api';
+import {authAPI, securityAPI} from '../api/api';
 import {FormAction, stopSubmit} from 'redux-form';
 
 
@@ -7,10 +7,14 @@ export type AuthStateType = {
     userId: number | null
     email: string | null
     login: string | null
+    captchaUrl: string | null
     rememberMe: boolean
     isAuth: boolean
+
 }
-export type AuthActionType = ReturnType<typeof setAuthUserData> | FormAction
+export type AuthActionType = ReturnType<typeof setAuthUserData>
+    | ReturnType<typeof getCaptchaUrlSuccess>
+    | FormAction
 
 let initialState: AuthStateType = {
     userId: null,
@@ -18,20 +22,29 @@ let initialState: AuthStateType = {
     login: '',
     rememberMe: false,
     isAuth: false,
+    captchaUrl: null
 }
 
 const authReducer = (state = initialState, action: AuthActionType): AuthStateType => {
     switch (action.type) {
-        case 'samurai-network/auth/SET-AUTH-USER-DATA':
+        case 'samurai-network/auth/SET-AUTH-USER-DATA':{
             return {
                 ...state,
                 ...action.payload,
             }
+        }
+        case 'samurai-network/auth/GET-CAPTCHA-URL-SUCCESS': {
+            return {
+                ...state,
+                ...action.payload,
+            }
+        }
+
         default:
             return state
     }
 }
-export let setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
+export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
     type: 'samurai-network/auth/SET-AUTH-USER-DATA',
     payload: {
         userId: userId,
@@ -39,6 +52,10 @@ export let setAuthUserData = (userId: number | null, email: string | null, login
         login: login,
         isAuth: isAuth,
     },
+}) as const
+export const getCaptchaUrlSuccess = (captchaUrl: string | null) => ({
+    type: 'samurai-network/auth/GET-CAPTCHA-URL-SUCCESS',
+    payload: {captchaUrl}
 }) as const
 
 export const getMe = (): AppThunk => {
@@ -57,6 +74,9 @@ export const logIn = (email: string | null, password: string | null, rememberMe:
         if (response.data.resultCode === 0) {
             dispatch(getMe())
         } else {
+            if(response.data.resultCode === 10){
+                dispatch(getCaptchaUrl())
+            }
             let message = response.data.messages.length > 1 ? response.data.messages[0] : 'Some error'
             dispatch(stopSubmit('login', {_error: message}))
         }
@@ -68,6 +88,12 @@ export const logout = (): AppThunk => {
         if (response.data.resultCode === 0) {
             dispatch(setAuthUserData(null, null, null, false))
         }
+    }
+}
+export const getCaptchaUrl = (): AppThunk => {
+    return async (dispatch) => {
+        let response = await  securityAPI.getCaptchaUrl()
+        dispatch(getCaptchaUrlSuccess(response.data.url))
     }
 }
 
