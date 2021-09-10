@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import s from './ProfileInfo.module.css'
-import {ProfileType} from '../../../redux/profile-reducer';
+import {ProfileDataType, ProfileType} from '../../../redux/profile-reducer';
 import Preloader from '../../../common/Preloader/Preloader';
 import ProfileStatusWithHooks from './ProfileStatus/ProfileStatusWithHooks';
 import avaPost from './../../../assets/images/avaPost.png'
@@ -12,14 +12,20 @@ type PropsType = {
     status: string
     isOwner: boolean
     editMode: boolean
+    userId: number | null
+    error: string | null
     updateStatus: (status: string) => void
     savePhoto: (file: File) => void
     toggleEditMode: (mode: boolean) => void
+    setProfileData: (profileData: ProfileDataType) => void
 }
 
 
-const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status,
-                                              isOwner, savePhoto, editMode, toggleEditMode}) => {
+const ProfileInfo: React.FC<PropsType> = ({
+                                              profile, updateStatus, status,
+                                              isOwner, savePhoto, editMode, toggleEditMode,
+                                              userId, error, setProfileData
+                                          }) => {
 
     if (!profile) {
         return <Preloader/>
@@ -46,11 +52,15 @@ const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status,
 
             <div>
                 {editMode
-                    ? <ProfileDataForm  />
+                    ? <ProfileDataForm profile={profile}
+                                       error={error}
+                                       userId={userId}
+                                       setProfileData={setProfileData}
+                    />
                     : <ProfileData profile={profile}
                                    isOwner={isOwner}
                                    toggleEditMode={toggleEditMode}
-                                   />}
+                    />}
             </div>
         </div>
 

@@ -1,19 +1,17 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import {useFormik} from 'formik';
-import {AppStateType} from '../../../../redux/redux-store';
-import {ProfileType, setProfileData} from '../../../../redux/profile-reducer';
+import {ProfileDataType, ProfileType} from '../../../../redux/profile-reducer';
 import s from './ProfileDataForm.module.css'
 
 type PropsType = {
-
+    profile: ProfileType
+    userId: number | null
+    error: string | null
+    setProfileData: (profileData: ProfileDataType) => void
 }
 
-const ProfileDataForm: React.FC<PropsType> = () => {
-    const userId = useSelector<AppStateType, number | null>(state => state.auth.userId)
-    const profile = useSelector<AppStateType, ProfileType>(state => state.profilePage.profile)
-    const error = useSelector<AppStateType, string | null>(state => state.app.error)
-    const dispatch = useDispatch()
+const ProfileDataForm: React.FC<PropsType> = ({profile, error, userId,
+                                                  setProfileData}) => {
 
     const formik = useFormik({
         initialValues: {
@@ -31,7 +29,7 @@ const ProfileDataForm: React.FC<PropsType> = () => {
             mainLink: profile.contacts.mainLink,
         },
         onSubmit: values => {
-            dispatch(setProfileData({
+            setProfileData({
                 userId, fullName: values.fullName, aboutMe: values.aboutMe,
                 lookingForAJobDescription: values.lookingForAJobDescription, lookingForAJob: values.lookingForAJob,
                 contacts: {
@@ -44,7 +42,7 @@ const ProfileDataForm: React.FC<PropsType> = () => {
                     instagram: values.instagram,
                     github: values.github
                 }
-            }))
+            })
             //зачищаем форму
             formik.resetForm()
         }
