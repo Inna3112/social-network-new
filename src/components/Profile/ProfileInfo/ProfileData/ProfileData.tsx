@@ -6,10 +6,13 @@ import {ProfileType} from '../../../../redux/profile-reducer';
 type ProfileDataPropsType = {
     profile: ProfileType
     isOwner: boolean
-    activateEditMode: () => void
+    toggleEditMode: (mode: boolean) => void
 }
 
-const ProfileData: React.FC<ProfileDataPropsType> = ({profile, isOwner, activateEditMode}) => {
+const ProfileData: React.FC<ProfileDataPropsType> = ({profile, isOwner, toggleEditMode}) => {
+    const activateEditMode = () => {
+        toggleEditMode(true)
+    }
     return (
         <div className={s.profileItem}>
             <div className={s.profileItem}><b>My name:</b> {profile.fullName}</div>

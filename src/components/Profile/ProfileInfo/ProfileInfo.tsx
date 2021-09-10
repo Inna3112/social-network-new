@@ -1,30 +1,25 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './ProfileInfo.module.css'
 import {ProfileType} from '../../../redux/profile-reducer';
 import Preloader from '../../../common/Preloader/Preloader';
 import ProfileStatusWithHooks from './ProfileStatus/ProfileStatusWithHooks';
 import avaPost from './../../../assets/images/avaPost.png'
-import ProfileData from "./ProfileData/ProfileData";
-import ProfileDataForm from "./ProfileDataForm/ProfileDataForm";
+import ProfileData from './ProfileData/ProfileData';
+import ProfileDataForm from './ProfileDataForm/ProfileDataForm';
 
 type PropsType = {
     profile: ProfileType
     status: string
     isOwner: boolean
+    editMode: boolean
     updateStatus: (status: string) => void
     savePhoto: (file: File) => void
+    toggleEditMode: (mode: boolean) => void
 }
 
 
-const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status, isOwner, savePhoto}) => {
-    let [editMode, setEditMode] = useState(false)
-
-    const activateEditMode = () => {
-        setEditMode(true)
-    }
-    const deactivateEditMode = () => {
-        setEditMode(false)
-    }
+const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status,
+                                              isOwner, savePhoto, editMode, toggleEditMode}) => {
 
     if (!profile) {
         return <Preloader/>
@@ -51,10 +46,11 @@ const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status, isOwne
 
             <div>
                 {editMode
-                    ? <ProfileDataForm deactivateEditMode={deactivateEditMode} />
+                    ? <ProfileDataForm  />
                     : <ProfileData profile={profile}
                                    isOwner={isOwner}
-                                   activateEditMode={activateEditMode}/>}
+                                   toggleEditMode={toggleEditMode}
+                                   />}
             </div>
         </div>
 

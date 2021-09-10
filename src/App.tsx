@@ -15,7 +15,8 @@ const UsersContainer = React.lazy(() => import('./components/Users/UsersContaine
 const LoginContainer = React.lazy(() => import('./components/Login/LoginContainer'));
 
 type MapStatePropsType = {
-    initialized: boolean
+    initialized: boolean,
+    error: string | null,
 }
 type MapDispatchPropsType = {
     initializeApp: () => void
@@ -56,7 +57,8 @@ class App extends React.Component<PropsType & RouteComponentProps> {
 
 const mapStateToProps = (state: AppStateType): appStateType => {
     return {
-        initialized: state.app.initialized
+        initialized: state.app.initialized,
+        error: null,
     }
 }
 

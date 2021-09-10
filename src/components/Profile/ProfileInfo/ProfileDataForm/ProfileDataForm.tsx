@@ -6,12 +6,13 @@ import {ProfileType, setProfileData} from '../../../../redux/profile-reducer';
 import s from './ProfileDataForm.module.css'
 
 type PropsType = {
-    deactivateEditMode: () => void
+
 }
 
-const ProfileDataForm: React.FC<PropsType> = ({deactivateEditMode}) => {
+const ProfileDataForm: React.FC<PropsType> = () => {
     const userId = useSelector<AppStateType, number | null>(state => state.auth.userId)
     const profile = useSelector<AppStateType, ProfileType>(state => state.profilePage.profile)
+    const error = useSelector<AppStateType, string | null>(state => state.app.error)
     const dispatch = useDispatch()
 
     const formik = useFormik({
@@ -30,18 +31,27 @@ const ProfileDataForm: React.FC<PropsType> = ({deactivateEditMode}) => {
             mainLink: profile.contacts.mainLink,
         },
         onSubmit: values => {
-            dispatch(setProfileData({userId, fullName: values.fullName, aboutMe: values.aboutMe,
+            dispatch(setProfileData({
+                userId, fullName: values.fullName, aboutMe: values.aboutMe,
                 lookingForAJobDescription: values.lookingForAJobDescription, lookingForAJob: values.lookingForAJob,
-                contacts: {facebook: values.facebook, mainLink: values.mainLink, website: values.website, youtube: values.youtube,
-                vk: values.vk, twitter: values.twitter, instagram: values.instagram, github: values.github}}))
+                contacts: {
+                    facebook: values.facebook,
+                    mainLink: values.mainLink,
+                    website: values.website,
+                    youtube: values.youtube,
+                    vk: values.vk,
+                    twitter: values.twitter,
+                    instagram: values.instagram,
+                    github: values.github
+                }
+            }))
             //зачищаем форму
             formik.resetForm()
-            deactivateEditMode()
         }
     })
     return (
-
         <form className={s.formStyle} onSubmit={formik.handleSubmit}>
+
             <div className={s.inputElement}>
                 <label htmlFor="fullName"><b>Full name:</b></label>
                 <input {...formik.getFieldProps('fullName')}/>
@@ -89,9 +99,11 @@ const ProfileDataForm: React.FC<PropsType> = ({deactivateEditMode}) => {
                 <label htmlFor="mainLink"><b>Main Link:</b></label>
                 <input {...formik.getFieldProps('mainLink')}/>
             </div>
+            {error ? <div style={{color: 'red'}}>{error}</div> : ''}
             <div>
                 <button type='submit'>Save</button>
             </div>
+
         </form>
     )
 }

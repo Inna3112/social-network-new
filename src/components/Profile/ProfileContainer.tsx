@@ -5,7 +5,7 @@ import {AppStateType} from '../../redux/redux-store';
 import {
     addPost, getProfile, getStatus,
     PostsType,
-    ProfileType, savePhoto,
+    ProfileType, savePhoto, toggleEditMode,
     updateStatus
 } from '../../redux/profile-reducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
@@ -22,6 +22,7 @@ type MapStatePropsType = {
     status: string
     authorizedId: number | null
     isAuth: boolean
+    editMode: boolean
 }
 type MapDispatchPropsType = {
     addPost: (newPostTect: string) => void
@@ -29,6 +30,7 @@ type MapDispatchPropsType = {
     getStatus: (userId: number | null) => void
     updateStatus: (status: string) => void
     savePhoto: (file: File) => void
+    toggleEditMode: (mode: boolean) => void
 }
 type OwnProps = {}
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnProps & RouteComponentProps<PathParamsType>
@@ -61,6 +63,7 @@ class ProfileContainer extends React.Component<PropsType> {
                         updateStatus={this.props.updateStatus}
                         isOwner={!this.props.match.params.userId}
                         savePhoto={this.props.savePhoto}
+                        editMode={this.props.editMode}
         />
     }
 }
@@ -74,12 +77,13 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
         status: state.profilePage.status,
         authorizedId: state.auth.userId,
         isAuth: state.auth.isAuth,
+        editMode: state.profilePage.editMode,
     }
 }
 
 export default compose<ComponentType>(
     connect<MapStatePropsType, MapDispatchPropsType, OwnProps, AppStateType>(mapStateToProps, {
-        addPost, getProfile, getStatus, updateStatus, savePhoto
+        addPost, getProfile, getStatus, updateStatus, savePhoto, toggleEditMode
     }),
     withRouter,
     withAuthRedirect

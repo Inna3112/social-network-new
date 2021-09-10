@@ -1,5 +1,6 @@
 import {AppThunk} from './redux-store';
 import {profileAPI, usersAPI} from '../api/api';
+import {setError} from './app-reducer';
 
 
 export type PostsType = {
@@ -36,6 +37,7 @@ export type ProfilePageType = {
     posts: Array<PostsType>
     profile: ProfileType
     status: string
+    editMode: boolean
 }
 
 let initialState: ProfilePageType = {
@@ -66,12 +68,14 @@ let initialState: ProfilePageType = {
         },
     },
     status: '',
+    editMode: false
 }
 export type ProfileActionType = ReturnType<typeof addPost>
     | ReturnType<typeof deletePost>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
     | ReturnType<typeof savePhotoSuccess>
+    | ReturnType<typeof toggleEditMode>
 
 const profileReducer = (state = initialState, action: ProfileActionType): ProfilePageType => {
     switch (action.type) {
@@ -112,6 +116,12 @@ const profileReducer = (state = initialState, action: ProfileActionType): Profil
                 profile: {...state.profile, photos: action.file}
             }
         }
+        case "samurai-network/profile-page/TOGGLE-EDIT-MODE": {
+            return {
+                ...state,
+                editMode: action.mode
+            }
+        }
         default:
             return state
     }
@@ -125,6 +135,7 @@ export const setUserProfile = (profile: ProfileType) => ({
 }) as const
 export const setStatus = (status: string) => ({type: 'samurai-network/profile-page/SET-STATUS', status}) as const
 export const savePhotoSuccess = (file: any) => ({type: 'samurai-network/profile-page/SAVE-PHOTO', file}) as const
+export const toggleEditMode = (mode: boolean) => ({type: 'samurai-network/profile-page/TOGGLE-EDIT-MODE', mode}) as const
 
 export const getProfile = (userId: number | null): AppThunk => {
     return async (dispatch, getState) => {
@@ -149,7 +160,7 @@ export const updateStatus = (status: string): AppThunk => {
 export const savePhoto = (file: any): AppThunk => {
     return async (dispatch) => {
         let response = await profileAPI.savaPhoto(file)
-        if(response.data.resultCode === 0){
+        if (response.data.resultCode === 0) {
             dispatch(savePhotoSuccess(response.data.data.photos))
         }
     }
@@ -158,12 +169,15 @@ export const setProfileData = (profileData: ProfileDataType): AppThunk => {
     return async (dispatch, getState) => {
         const userId = getState().profilePage.profile.userId
         let response = await profileAPI.setProfileData(profileData)
-        if(response.data.resultCode === 0){
+        if (response.data.resultCode === 0) {
             dispatch(getProfile(userId))
+            dispatch(toggleEditMode(false))
         } else {
-
+            dispatch(setError(response.data.messages.length ? response.data.messages[0] : 'Some error'))
+            dispatch(toggleEditMode(true))
         }
     }
 }
+
 
 export default profileReducer

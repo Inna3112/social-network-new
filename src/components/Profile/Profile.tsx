@@ -7,12 +7,15 @@ type PropsType = {
     profile: ProfileType
     status: string
     isOwner: boolean
+    editMode: boolean
     updateStatus: (status: string) => void
     savePhoto: (file: File) => void
+    toggleEditMode: (mode: boolean) => void
 }
 
 
-const Profile: React.FC<PropsType> = ({profile, status, updateStatus, isOwner, savePhoto}) => {
+const Profile: React.FC<PropsType> = ({profile, status, updateStatus,
+                                          isOwner, savePhoto, editMode, toggleEditMode}) => {
     return (
         <div>
             <ProfileInfo profile={profile}
@@ -20,6 +23,8 @@ const Profile: React.FC<PropsType> = ({profile, status, updateStatus, isOwner, s
                          updateStatus={updateStatus}
                          isOwner={isOwner}
                          savePhoto={savePhoto}
+                         editMode={editMode}
+                         toggleEditMode={toggleEditMode}
             />
             <MyPostsContainer/>
         </div>
