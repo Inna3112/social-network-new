@@ -1,6 +1,6 @@
-import axios from "axios";
-import {UsersType} from "../redux/users-reducer";
-import {ProfileDataType, ProfileType} from "../redux/profile-reducer";
+import axios from 'axios';
+import {UsersType} from '../redux/users-reducer';
+import {ProfileDataType, ProfileType} from '../redux/profile-reducer';
 
 
 const instance = axios.create({
@@ -11,26 +11,6 @@ const instance = axios.create({
     },
 })
 
-type GetResponseType = {
-    items: Array<UsersType>
-    totalCount: number
-    error: string
-}
-export type ResponseType<T> = {
-    resultCode: number
-    fieldsErrors: []
-    messages: string[]
-    data: T
-}
-type GetMeResponseType = {
-    id: number | null,
-    email: string | null,
-    login: string | null,
-}
-
-type LoginResponseType = {
-    userId: number
-}
 
 export const usersAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
@@ -87,6 +67,35 @@ export const authAPI = {
     logout() {
         return instance.delete<ResponseType<{}>>('auth/login')
     }
+
 }
+export const securityAPI = {
+    getCaptchaUrl() {
+        return instance.get<{url: string}>('security/get-captcha-url')
+    }
+}
+
+// types
+type GetResponseType = {
+    items: Array<UsersType>
+    totalCount: number
+    error: string
+}
+export type ResponseType<T> = {
+    resultCode: number
+    fieldsErrors: []
+    messages: string[]
+    data: T
+}
+type GetMeResponseType = {
+    id: number | null,
+    email: string | null,
+    login: string | null,
+}
+
+type LoginResponseType = {
+    userId: number
+}
+
 
 
