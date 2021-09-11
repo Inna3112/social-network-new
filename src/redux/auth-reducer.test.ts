@@ -1,17 +1,10 @@
 import authReducer, {AuthStateType, getCaptchaUrlSuccess, setAuthUserData} from './auth-reducer';
 
 
-let initialState: AuthStateType = {
-    userId: null,
-    email: '',
-    login: '',
-    rememberMe: false,
-    isAuth: false,
-    captchaUrl: '',
-}
+let initialState: AuthStateType
 
 beforeEach(() => {
-    let initialState: AuthStateType = {
+     initialState = {
         userId: null,
         email: '',
         login: '',

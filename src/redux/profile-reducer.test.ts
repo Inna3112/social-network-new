@@ -4,7 +4,7 @@ import profileReducer, {
     ProfilePageType,
     ProfileType,
     setStatus,
-    setUserProfile
+    setUserProfile, toggleEditMode
 } from './profile-reducer';
 
 let startState: ProfilePageType
@@ -37,7 +37,8 @@ beforeEach(() => {
                 large: undefined,
             },
         },
-        status: 'Some status'
+        status: 'Some status',
+        editMode: false,
     }
 })
 
@@ -78,7 +79,7 @@ test('correct user profile should be set', () => {
         },
         photos: {
             small: undefined,
-                large: undefined,
+            large: undefined,
         },
     }
 
@@ -110,4 +111,11 @@ test('post should be deleted', () => {
     expect(endState.posts.length).toBe(2)
     expect(endState.posts[0].id).toBe(2)
 
+})
+test('profile mode should be correct toggled', () => {
+
+    let action = toggleEditMode(true)
+    let endState = profileReducer(startState, action)
+
+    expect(endState.editMode).toBe(true)
 })
