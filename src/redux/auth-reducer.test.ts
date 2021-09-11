@@ -1,4 +1,4 @@
-import authReducer, {AuthStateType, setAuthUserData} from './auth-reducer';
+import authReducer, {AuthStateType, getCaptchaUrlSuccess, setAuthUserData} from './auth-reducer';
 
 
 let initialState: AuthStateType = {
@@ -7,6 +7,7 @@ let initialState: AuthStateType = {
     login: '',
     rememberMe: false,
     isAuth: false,
+    captchaUrl: '',
 }
 
 beforeEach(() => {
@@ -16,6 +17,7 @@ beforeEach(() => {
         login: '',
         rememberMe: false,
         isAuth: false,
+        captchaUrl: '',
     }
 })
 
@@ -28,4 +30,11 @@ test('app should be correct initialized', () => {
     expect(endState.email).toBe('innula3112@gmail.com')
     expect(endState.login).toBe('innula3112')
 
+})
+test('captcha url should be correct added', () => {
+
+    const action = getCaptchaUrlSuccess('www.https//:captcha.com')
+    const endState = authReducer(initialState, action)
+
+    expect(endState.captchaUrl).toBe('www.https//:captcha.com')
 })
