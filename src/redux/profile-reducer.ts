@@ -135,7 +135,10 @@ export const setUserProfile = (profile: ProfileType) => ({
 }) as const
 export const setStatus = (status: string) => ({type: 'samurai-network/profile-page/SET-STATUS', status}) as const
 export const savePhotoSuccess = (file: any) => ({type: 'samurai-network/profile-page/SAVE-PHOTO', file}) as const
-export const toggleEditMode = (mode: boolean) => ({type: 'samurai-network/profile-page/TOGGLE-EDIT-MODE', mode}) as const
+export const toggleEditMode = (mode: boolean) => ({
+    type: 'samurai-network/profile-page/TOGGLE-EDIT-MODE',
+    mode
+}) as const
 
 export const getProfile = (userId: number | null): AppThunk => {
     return async (dispatch, getState) => {
