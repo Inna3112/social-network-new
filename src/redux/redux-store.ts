@@ -3,12 +3,12 @@ import sidebarReducer from './sidebar-reducer';
 import profileReducer, {ProfileActionType} from './profile-reducer';
 import dialogsReducer, {DialogActionType} from './dialogs-reducer';
 import usersReducer, {UserActionType} from './users-reducer';
-import authReducer, {AuthActionType} from './auth-reducer';
+import authReducer, {AuthActionType, getMeSaga} from './auth-reducer';
 import thunkMiddleware, {ThunkAction} from 'redux-thunk'
 import {FormAction, reducer as formReducer} from 'redux-form'
-import appReducer, {AppActionType} from './app-reducer';
+import appReducer, {AppActionType, initializeAppSaga} from './app-reducer';
 import createSagaMiddleware from 'redux-saga';
-import {all} from 'redux-saga/effects'
+import {takeEvery} from 'redux-saga/effects'
 
 
 const rootReducer = combineReducers({
@@ -28,7 +28,9 @@ sagaMiddleware.run(rootWatcher)
 
 function* rootWatcher() {
     // yield all([appWatcherSaga(), tasksWatcherSaga()])
-    yield all([])
+    // yield all([])
+    yield takeEvery('samurai-network/app/INITIALIZE-APP', initializeAppSaga)
+    yield takeEvery('samurai-network/auth/GET-ME', getMeSaga)
 }
 // @ts-ignore
 window.store = store

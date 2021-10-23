@@ -1,20 +1,8 @@
 import {AppThunk} from './redux-store';
-import {authAPI, securityAPI} from '../api/api';
+import {authAPI, GetMeResponseType, ResponseType, securityAPI} from '../api/api';
 import {FormAction, stopSubmit} from 'redux-form';
+import {call, put} from 'redux-saga/effects';
 
-
-export type AuthStateType = {
-    userId: number | null
-    email: string | null
-    login: string | null
-    captchaUrl: string
-    rememberMe: boolean
-    isAuth: boolean
-
-}
-export type AuthActionType = ReturnType<typeof setAuthUserData>
-    | ReturnType<typeof getCaptchaUrlSuccess>
-    | FormAction
 
 let initialState: AuthStateType = {
     userId: null,
@@ -37,6 +25,7 @@ const authReducer = (state = initialState, action: AuthActionType): AuthStateTyp
             return state
     }
 }
+//actions
 export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
     type: 'samurai-network/auth/SET-AUTH-USER-DATA',
     payload: {
@@ -50,7 +39,17 @@ export const getCaptchaUrlSuccess = (captchaUrl: string | null) => ({
     type: 'samurai-network/auth/GET-CAPTCHA-URL-SUCCESS',
     payload: {captchaUrl}
 }) as const
+//sagas
+export function* getMeSaga () {
+        const data: ResponseType<GetMeResponseType> = yield call(authAPI.getMe)
+        if (data.resultCode === 0) {
+            let {id, email, login} = data.data
+            yield put(setAuthUserData(id, email, login, true))
+        }
+}
+export const getMeAC = () => ({type: 'samurai-network/auth/GET-ME'})
 
+// thunks
 export const getMe = (): AppThunk => {
     return async (dispatch, getState) => {
         const data = await authAPI.getMe()
@@ -92,3 +91,17 @@ export const getCaptchaUrl = (): AppThunk => {
 
 
 export default authReducer
+
+//types
+export type AuthStateType = {
+    userId: number | null
+    email: string | null
+    login: string | null
+    captchaUrl: string
+    rememberMe: boolean
+    isAuth: boolean
+
+}
+export type AuthActionType = ReturnType<typeof setAuthUserData>
+    | ReturnType<typeof getCaptchaUrlSuccess>
+    | FormAction

@@ -5,7 +5,7 @@ import {Redirect, Route, RouteComponentProps, Switch, withRouter} from 'react-ro
 import HeaderContainer from './components/Header/HeaderContainer';
 import {connect} from 'react-redux';
 import {AppStateType} from './redux/redux-store';
-import {appStateType, initializeApp} from './redux/app-reducer';
+import {appStateType, initializeAppAC} from './redux/app-reducer';
 import {withSuspense} from './HOC/withSuspense';
 import ErrorBoundary from './common/ErrorBoundary/ErrorBoundary';
 
@@ -19,14 +19,16 @@ type MapStatePropsType = {
     error: string | null,
 }
 type MapDispatchPropsType = {
-    initializeApp: () => void
+    // initializeApp: () => void
+    initializeAppAC: () => void
 }
 type OwnPropsType = {}
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 class App extends React.Component<PropsType & RouteComponentProps> {
     componentDidMount() {
-        this.props.initializeApp()
+        // this.props.initializeApp()
+        this.props.initializeAppAC()
     }
 
     render() {
@@ -70,5 +72,5 @@ const mapStateToProps = (state: AppStateType): appStateType => {
 
 let AppWithRouter = withRouter(App)
 export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-    initializeApp
+    initializeAppAC
 })(AppWithRouter)

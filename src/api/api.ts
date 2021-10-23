@@ -55,7 +55,7 @@ export const profileAPI = {
 }
 
 export const authAPI = {
-    getMe() {
+    getMe(): Promise<ResponseType<GetMeResponseType>> {
         return instance.get<ResponseType<GetMeResponseType>>('auth/me')
             .then(response => response.data)
     },
@@ -87,7 +87,7 @@ export type ResponseType<T> = {
     messages: string[]
     data: T
 }
-type GetMeResponseType = {
+export type GetMeResponseType = {
     id: number | null,
     email: string | null,
     login: string | null,
