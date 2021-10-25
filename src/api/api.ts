@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {UsersType} from '../redux/users-reducer';
 import {ProfileDataType, ProfileType} from '../redux/profile-reducer';
 
@@ -59,7 +59,7 @@ export const authAPI = {
         return instance.get<ResponseType<GetMeResponseType>>('auth/me')
             .then(response => response.data)
     },
-    logIn(email: string | null, password: string | null, rememberMe = false, captcha = '') {
+    logIn(email: string | null, password: string | null, rememberMe = false, captcha = ''): Promise<AxiosResponse<ResponseType<LoginResponseType>>> {
         return instance.post<ResponseType<LoginResponseType>>('auth/login', {
             email, password, rememberMe
         })
@@ -93,7 +93,7 @@ export type GetMeResponseType = {
     login: string | null,
 }
 
-type LoginResponseType = {
+export type LoginResponseType = {
     userId: number
 }
 

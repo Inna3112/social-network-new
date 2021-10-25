@@ -27,7 +27,7 @@ export let store = createStore(rootReducer, applyMiddleware(thunkMiddleware, sag
 sagaMiddleware.run(rootWatcher)
 
 function* rootWatcher() {
-    // yield all([appWatcherSaga(), tasksWatcherSaga()])
+    // yield all([appWatcherSaga(), userWatcherSaga()])
     // yield all([])
     yield takeEvery('samurai-network/app/INITIALIZE-APP', initializeAppSaga)
     yield takeEvery('samurai-network/auth/GET-ME', getMeSaga)

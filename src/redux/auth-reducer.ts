@@ -39,15 +39,18 @@ export const getCaptchaUrlSuccess = (captchaUrl: string | null) => ({
     type: 'samurai-network/auth/GET-CAPTCHA-URL-SUCCESS',
     payload: {captchaUrl}
 }) as const
+
 //sagas
-export function* getMeSaga () {
-        const data: ResponseType<GetMeResponseType> = yield call(authAPI.getMe)
-        if (data.resultCode === 0) {
-            let {id, email, login} = data.data
-            yield put(setAuthUserData(id, email, login, true))
-        }
+export function* getMeSaga() {
+    const data: ResponseType<GetMeResponseType> = yield call(authAPI.getMe)
+    if (data.resultCode === 0) {
+        let {id, email, login} = data.data
+        yield put(setAuthUserData(id, email, login, true))
+    }
 }
+
 export const getMeAC = () => ({type: 'samurai-network/auth/GET-ME'})
+
 
 // thunks
 export const getMe = (): AppThunk => {
@@ -66,7 +69,7 @@ export const logIn = (email: string | null, password: string | null, rememberMe:
         if (response.data.resultCode === 0) {
             dispatch(getMe())
         } else {
-            if(response.data.resultCode === 10){
+            if (response.data.resultCode === 10) {
                 dispatch(getCaptchaUrl())
             }
             let message = response.data.messages.length > 1 ? response.data.messages[0] : 'Some error'
@@ -84,7 +87,7 @@ export const logout = (): AppThunk => {
 }
 export const getCaptchaUrl = (): AppThunk => {
     return async (dispatch) => {
-        let response = await  securityAPI.getCaptchaUrl()
+        let response = await securityAPI.getCaptchaUrl()
         dispatch(getCaptchaUrlSuccess(response.data.url))
     }
 }
