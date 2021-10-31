@@ -8,8 +8,8 @@ import {
 } from '../../redux/users-reducer';
 import Users from './Users';
 import Preloader from '../../common/Preloader/Preloader';
-import {withAuthRedirect} from "../../HOC/withAuthRedirect";
-import { compose } from 'redux';
+import {withAuthRedirect} from '../../HOC/withAuthRedirect';
+import {compose} from 'redux';
 import {
     getCurrentPage,
     getFollowingInProgress,
@@ -17,7 +17,7 @@ import {
     getPageSize,
     getTotalUsersCount,
     getUsers
-} from "../../redux/selectors/users-selectors";
+} from '../../redux/selectors/users-selectors';
 
 
 type MapStatePropsType = {
@@ -91,7 +91,8 @@ const mapStateToProps = (state: AppStateType): UsersStateType => {
 export default compose<ComponentType>(
     withAuthRedirect,
     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
-        setCurrentPage, requestUsers, follow, unFollow})
+        setCurrentPage, requestUsers, follow, unFollow
+    })
 )(UsersContainer)
 
 // export default withAuthRedirect(connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {

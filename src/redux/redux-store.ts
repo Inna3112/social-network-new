@@ -32,6 +32,7 @@ function* rootWatcher() {
     yield takeEvery('samurai-network/app/INITIALIZE-APP', initializeAppSaga)
     yield takeEvery('samurai-network/auth/GET-ME', getMeSaga)
 }
+
 // @ts-ignore
 window.store = store
 

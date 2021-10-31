@@ -1,14 +1,13 @@
-import avaPost from "../assets/images/avaPost.png";
-import usersReducer, {followAC, setUsersAC, unFollowAC, UsersStateType} from "./users-reducer";
+import usersReducer, {followSuccess, setUsers, unFollowSuccess, UsersStateType, UsersType} from './users-reducer';
 
-let initialState: UsersStateType = {users: []}
+let initialState: UsersStateType
 
 beforeEach(() => {
     initialState = {
         users: [
             {
                 id: 1,
-                photoUrl: avaPost,
+                photos: {small: null, large: null},
                 followed: true,
                 name: 'Anna',
                 status: 'I am happy',
@@ -16,7 +15,7 @@ beforeEach(() => {
             },
             {
                 id: 2,
-                photoUrl: avaPost,
+                photos: {small: null, large: null},
                 followed: false,
                 name: 'Inna',
                 status: 'I am sed',
@@ -24,38 +23,51 @@ beforeEach(() => {
             },
             {
                 id: 3,
-                photoUrl: avaPost,
+                photos: {small: null, large: null},
                 followed: true,
                 name: 'Max',
                 status: 'I am  too happy',
                 location: {city: 'Kyiv', country: 'Ukraine'}
-            }]
+            }],
+        pageSize: 1,
+        totalUsersCount: 3,
+        currentPage: 1,
+        isFetching: false,
+        followingInProgress: [1]
     }
 })
 
 test('followed should be true', () => {
 
-    const action = followAC(3)
+    const action = followSuccess(3)
     const endState = usersReducer(initialState, action)
 
-    expect(endState.users[2].followed).toBe(true)
+    expect(endState.users[2].followed).toBeTruthy()
 
 })
 
 test('followed should be false', () => {
 
-    const action = unFollowAC(2)
+    const action = unFollowSuccess(2)
     const endState = usersReducer(initialState, action)
 
-    expect(endState.users[1].followed).toBe(false)
+    expect(endState.users[1].followed).toBeFalsy()
 
 })
 
 test('users should be set', () => {
+    let initialState = {
+        users: [] as UsersType[],
+        pageSize: 0,
+        totalUsersCount: 0,
+        currentPage: 0,
+        isFetching: false,
+        followingInProgress: [0]}
+
     const newUsers = [
         {
             id: 4,
-            photoUrl: avaPost,
+            photos: {small: null, large: null},
             followed: false,
             name: 'Alex',
             status: 'I.....',
@@ -65,10 +77,10 @@ test('users should be set', () => {
             }
         }
     ]
-    const action = setUsersAC(newUsers)
+    const action = setUsers(newUsers)
     const endState = usersReducer(initialState, action)
 
-    expect(endState.users.length).toBe(4)
-    expect(endState.users[3].id).toBe(4)
+    expect(endState.users.length).toBe(1)
+    expect(endState.users[0].id).toBe(4)
 
 })

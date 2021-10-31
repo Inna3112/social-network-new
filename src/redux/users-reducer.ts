@@ -1,38 +1,8 @@
 import {usersAPI} from '../api/api';
 import {AppThunk} from './redux-store';
 import {Dispatch} from 'react';
-import {updateObjectInArray} from "../utils/object-helpers";
+import {updateObjectInArray} from '../utils/object-helpers';
 
-export type LocationType = {
-    city: string
-    country: string
-}
-export type UsersType = {
-    name: string
-    id: number
-    photos: {
-        small: string
-        large: string
-    },
-    status: string | null,
-    followed: boolean
-    location: LocationType
-}
-export type UsersStateType = {
-    users: Array<UsersType>
-    pageSize: number
-    totalUsersCount: number
-    currentPage: number
-    isFetching: boolean
-    followingInProgress: number[]
-}
-export type UserActionType = ReturnType<typeof followSuccess>
-    | ReturnType<typeof unFollowSuccess>
-    | ReturnType<typeof setUsers>
-    | ReturnType<typeof setCurrentPage>
-    | ReturnType<typeof setTotalUsersCount>
-    | ReturnType<typeof toggleIsFetching>
-    | ReturnType<typeof toggleFollowingProgress>
 
 let initialState: UsersStateType = {
     users: [],
@@ -49,8 +19,8 @@ const usersReducer = (state = initialState, action: UserActionType): UsersStateT
             return {
                 ...state,
                 users: updateObjectInArray(state.users, action.userId, 'id', {followed: true})
-                    // state.users.map(u => {
-                    // return u.id === action.userId ? {...u, followed: true} : u
+                // state.users.map(u => {
+                // return u.id === action.userId ? {...u, followed: true} : u
                 // })
             }
         case 'samurai-network/users-page/UNFOLLOW':
@@ -93,6 +63,8 @@ const usersReducer = (state = initialState, action: UserActionType): UsersStateT
             return state
     }
 }
+
+//actions
 export let followSuccess = (userId: number) => ({type: 'samurai-network/users-page/FOLLOW', userId}) as const
 export let unFollowSuccess = (userId: number) => ({type: 'samurai-network/users-page/UNFOLLOW', userId}) as const
 export let setUsers = (users: Array<UsersType>) => ({type: 'samurai-network/users-page/SET-USERS', users}) as const
@@ -114,6 +86,7 @@ export let toggleFollowingProgress = (isFetching: boolean, userId: number) => ({
     userId
 }) as const
 
+//thunks
 export const requestUsers = (page: number, pageSize: number): AppThunk => {
     return async (dispatch, getState) => {
 
@@ -128,8 +101,8 @@ export const requestUsers = (page: number, pageSize: number): AppThunk => {
     }
 }
 
-const followUnfollowFlow = async (dispatch: Dispatch<UserActionType>, userId: number,  apiMethod: any,
-                            actionCreator: typeof followSuccess | typeof unFollowSuccess) => {
+const followUnfollowFlow = async (dispatch: Dispatch<UserActionType>, userId: number, apiMethod: any,
+                                  actionCreator: typeof followSuccess | typeof unFollowSuccess) => {
     dispatch(toggleFollowingProgress(true, userId))
 
     let response = await apiMethod(userId)
@@ -155,5 +128,37 @@ export const unFollow = (userId: number) => {
         followUnfollowFlow(dispatch, userId, apiMethod, actionCreator)
     }
 }
+
+//types
+export type LocationType = {
+    city: string
+    country: string
+}
+export type UsersType = {
+    name: string
+    id: number
+    photos: {
+        small: string | null
+        large: string | null
+    },
+    status: string | null,
+    followed: boolean
+    location: LocationType
+}
+export type UsersStateType = {
+    users: Array<UsersType>
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+    isFetching: boolean
+    followingInProgress: number[]
+}
+export type UserActionType = ReturnType<typeof followSuccess>
+    | ReturnType<typeof unFollowSuccess>
+    | ReturnType<typeof setUsers>
+    | ReturnType<typeof setCurrentPage>
+    | ReturnType<typeof setTotalUsersCount>
+    | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof toggleFollowingProgress>
 
 export default usersReducer
