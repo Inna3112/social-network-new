@@ -1,7 +1,8 @@
-import {usersAPI} from '../api/api';
+import {ResponseType, usersAPI} from '../api/api';
 import {AppThunk} from './redux-store';
 import {Dispatch} from 'react';
 import {updateObjectInArray} from '../utils/object-helpers';
+import {RootStateType} from './store';
 
 
 let initialState: UsersStateType = {
@@ -94,20 +95,20 @@ export const requestUsers = (page: number, pageSize: number): AppThunk => {
         dispatch(setCurrentPage(page))
 
         let data = await usersAPI.getUsers(page, pageSize)
-        // debugger
         dispatch(toggleIsFetching(false))
         dispatch(setUsers(data.items))
         dispatch(setTotalUsersCount(data.totalCount))
     }
 }
 
-const followUnfollowFlow = async (dispatch: Dispatch<UserActionType>, userId: number, apiMethod: any,
+const followUnfollowFlow = async (dispatch: Dispatch<UserActionType>, userId: number,
+                                  apiMethod: (userId: number) => Promise<ResponseType<{}>>,
                                   actionCreator: typeof followSuccess | typeof unFollowSuccess) => {
     dispatch(toggleFollowingProgress(true, userId))
 
     let response = await apiMethod(userId)
 
-    if (response.data.resultCode === 0) {
+    if (response.resultCode === 0) {
         dispatch(actionCreator(userId))
     }
     dispatch(toggleFollowingProgress(false, userId))
@@ -117,7 +118,7 @@ export const follow = (userId: number) => {
     return async (dispatch: Dispatch<UserActionType>) => {
         let apiMethod = usersAPI.followSuccess.bind(usersAPI)
         let actionCreator = followSuccess
-        followUnfollowFlow(dispatch, userId, apiMethod, actionCreator)
+        await followUnfollowFlow(dispatch, userId, apiMethod, actionCreator)
     }
 }
 
@@ -125,7 +126,7 @@ export const unFollow = (userId: number) => {
     return async (dispatch: Dispatch<UserActionType>) => {
         let apiMethod = usersAPI.unFollowSuccess.bind(usersAPI)
         let actionCreator = unFollowSuccess
-        followUnfollowFlow(dispatch, userId, apiMethod, actionCreator)
+        await followUnfollowFlow(dispatch, userId, apiMethod, actionCreator)
     }
 }
 
