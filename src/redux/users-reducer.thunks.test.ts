@@ -7,15 +7,16 @@ const usersAPIMock = usersAPI as jest.Mocked<typeof usersAPI>
 
 //нам нужна фейковая функция для диспатча
 const dispatchMock = jest.fn()
+
 beforeEach(() => {
     dispatchMock.mockClear()
     usersAPIMock.followSuccess.mockClear()
 })
 
 const result: ResponseType<{}> = {
-    resultCode: 0,
+    resultCode: 1,
     fieldsErrors: [],
-    messages: [],
+    messages: ['jlkjlk'],
     data: {}
 }
 
@@ -28,6 +29,7 @@ test('success follow thunk', async () => {
     //чтобы протестировать санку - ее нужно сначала вызвать
     await thunk(dispatchMock)
     //ожидаем, что диспатч произошел 3 раза, потому что в санке 3 раза вызван диспатч
+
     expect(dispatchMock).toBeCalledTimes(3)
     // expect(dispatchMock).toHaveBeenNthCalledWith(1, toggleFollowingProgress(true, 1))
     // expect(dispatchMock).toHaveBeenNthCalledWith(2, followSuccess(1))

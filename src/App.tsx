@@ -9,10 +9,13 @@ import {appStateType, initializeAppAC} from './redux/app-reducer';
 import {withSuspense} from './HOC/withSuspense';
 import ErrorBoundary from './common/ErrorBoundary/ErrorBoundary';
 
+
+//для lazy нужен дефолтный экспорт!!!!!
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
 const LoginContainer = React.lazy(() => import('./components/Login/LoginContainer'));
+const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage'));
 
 type MapStatePropsType = {
     initialized: boolean,
@@ -43,17 +46,19 @@ class App extends React.Component<PropsType & RouteComponentProps> {
                     </ErrorBoundary>
                     <div className="app-wrapper-content">
                         <Switch>
-                            <Route exact path='/'
+                            <Route exact path="/"
                                    render={() => <Redirect to={'/profile'}/>}/>
-                            <Route path='/dialogs'
+                            <Route path="/dialogs"
                                    render={withSuspense(DialogsContainer)}/>
-                            <Route path='/profile/:userId?'
+                            <Route path="/profile/:userId?"
                                    render={withSuspense(ProfileContainer)}/>
-                            <Route path='/users'
+                            <Route path="/users"
                                    render={withSuspense(UsersContainer)}/>
-                            <Route path='/login'
+                            <Route path="/login"
                                    render={withSuspense(LoginContainer)}/>
-                            <Route path='*'
+                            <Route path="/chat"
+                                   render={withSuspense(ChatPage)}/>
+                            <Route path="*"
                                    render={() => '404 NOT FOUND'}/>
                         </Switch>
                     </div>
