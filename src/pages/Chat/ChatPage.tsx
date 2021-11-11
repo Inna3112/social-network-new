@@ -30,7 +30,8 @@ const Messages = () => {
     useEffect(() => {
         ws.addEventListener('message', (e) => {
             // console.log(JSON.parse(e.data))
-            setMessages(JSON.parse(e.data))
+            const newMessages = JSON.parse(e.data);
+            setMessages((prevMessages) => [...prevMessages, ...newMessages])
         })
     }, [])
 
