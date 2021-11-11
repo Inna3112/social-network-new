@@ -6,6 +6,7 @@ export type ChatMessageType = {
     userId: number
     userName: string
 }
+//ws можут отдавать только текстовые и бинарные данные, поэтому их НУЖНО ПАРСИТЬ В json!!!!
 const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
 const ChatPage = () => {
     return (
@@ -58,13 +59,20 @@ const Message: React.FC<MessagePropsType> = ({message}) => {
     )
 }
 const AddMessageForm = () => {
+    const [message, setMessage] = useState('')
+
+    const addMessage = () => {
+        ws.send(message)
+        setMessage('')
+    }
+
     return (
         <div>
             <div>
-                <textarea/>
+                <textarea onChange={(e) => setMessage(e.currentTarget.value)} value={message}/>
             </div>
             <div>
-                <button>send</button>
+                <button onClick={addMessage}>send</button>
             </div>
         </div>
     )
