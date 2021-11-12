@@ -6,8 +6,8 @@ export type ChatMessageType = {
     userId: number
     userName: string
 }
-//ws можут отдавать только текстовые и бинарные данные, поэтому их НУЖНО ПАРСИТЬ В json!!!!
-const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
+//ws могут отдавать только текстовые и бинарные данные, поэтому их НУЖНО ПАРСИТЬ В json!!!!
+
 const ChatPage = () => {
     return (
         <div>
@@ -17,24 +17,37 @@ const ChatPage = () => {
 }
 
 const Chat = () => {
+const [ws, setWs] = useState<WebSocket | null>(null)
+    useEffect(() => {
+        function createChannel (){
+            setWs(new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx'))
+        }
+        createChannel()
+    }, [])
+
+    useEffect(() => {
+        ws?.addEventListener('close', () => {
+            console.log('CLOSE WS')
+        })
+    }, [ws])
 
     return (
         <div>
-            <Messages/>
-            <AddMessageForm/>
+            <Messages ws={ws} />
+            <AddMessageForm ws={ws}/>
         </div>
     )
 }
-const Messages = () => {
+const Messages: React.FC<{ws: WebSocket | null}> = ({ws}) => {
     const [messages, setMessages] = useState<ChatMessageType[]>([])
 
     useEffect(() => {
-        ws.addEventListener('message', (e) => {
+        ws?.addEventListener('message', (e) => {
             // console.log(JSON.parse(e.data))
             const newMessages = JSON.parse(e.data);
             setMessages((prevMessages) => [...prevMessages, ...newMessages])
         })
-    }, [])
+    }, [ws])
 
     return (
         <div style={{height: 400, overflowY: 'auto'}}>
@@ -58,11 +71,18 @@ const Message: React.FC<MessagePropsType> = ({message}) => {
         </div>
     )
 }
-const AddMessageForm = () => {
+const AddMessageForm: React.FC<{ws: WebSocket | null}> = ({ws}) => {
     const [message, setMessage] = useState('')
+    const [readyStatus, setReadyStatus] = useState<'pending' | 'open'>('pending')
+
+    useEffect(() => {
+       ws?.addEventListener('open', () => {
+           setReadyStatus('open')
+       })
+    }, [ws])
 
     const addMessage = () => {
-        ws.send(message)
+        ws?.send(message)
         setMessage('')
     }
 
@@ -72,7 +92,9 @@ const AddMessageForm = () => {
                 <textarea onChange={(e) => setMessage(e.currentTarget.value)} value={message}/>
             </div>
             <div>
-                <button onClick={addMessage}>send</button>
+                {/*<button disabled={ws.readyState !== WebSocket.OPEN} onClick={addMessage}>send</button>*/}
+                {/*дизэйблим кнопку пока не подключится ws канал*/}
+                <button disabled={ws === null || readyStatus === 'pending'} onClick={addMessage}>send</button>
             </div>
         </div>
     )
